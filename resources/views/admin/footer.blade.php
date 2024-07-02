@@ -129,6 +129,8 @@
 
     displayData();
     displayPagination();
+
+    
 </script>
 
 </html>

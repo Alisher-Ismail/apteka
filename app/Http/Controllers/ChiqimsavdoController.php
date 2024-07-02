@@ -35,7 +35,8 @@ class ChiqimsavdoController extends Controller
      public function chiqim()
      {
          $tovars = Tovar::all();
-         $kirims = Kirim::all();
+         $kirims = Kirim::where('muddati', '>', now())->orderBy('muddati', 'desc')->get();
+
          $olchams = Olchamlar::all();
          $chiqims = Chiqimsavdo::all();
          $chiqim = Chiqimsavdo::where('sotildi', 0)->get();

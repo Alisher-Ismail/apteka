@@ -193,63 +193,63 @@ $(document).ready(function(){
                     @csrf <!-- CSRF token -->
 
                     <div class="form-group Barcode1">
-                        <label class="col-sm-2 control-label">Barcode:</label>
+                        <label class="col-sm-6 control-label">Barcode:</label>
                         <div class="col-sm-6">
                             <input type="text" name="barcode" id="Barcode" class="form-control Barcode" autofocus required/>
                         </div>
                     </div>
 
                     <div class="form-group display" style="display: none">
-                        <label class="col-sm-2 control-label">Tovar Nomi:</label>
+                        <label class="col-sm-6 control-label">Tovar Nomi:</label>
                         <div class="col-sm-6">
                             <input type="text" name="tnomi" id="tnomi" disabled class="form-control" />
                         </div>
                     </div>
 
                     <div class="form-group display" style="display: none">
-                        <label class="col-sm-2 control-label">Sotilish Narxi:</label>
+                        <label class="col-sm-6 control-label">Sotilish Narxi:</label>
                         <div class="col-sm-6">
                             <input type="number" name="snarxi" id="snarxi" disabled class="form-control" />
                         </div>
                     </div>
 
-                    <div class="form-group display" style="display: none">
-                        <label class="col-sm-2 control-label">Sotilish (Dona) Narxi:</label>
+                    <div class="form-group display2" style="display: none">
+                        <label class="col-sm-6 control-label">Sotilish (Dona) Narxi:</label>
                         <div class="col-sm-6">
-                            <input type="number" name="dnarxi" id="dnarxi" disabled class="form-control" />
+                            <input type="number" name="dnarxi" id="dnarxi" disabled class="form-control" value="0" />
                         </div>
                     </div>
 
                     <div class="form-group display" style="display: none">
-                        <label class="col-sm-2 control-label">Nechta (Tovar) Keldi:</label>
+                        <label class="col-sm-6 control-label">Nechta (Tovar) Keldi:</label>
                         <div class="col-sm-6">
-                            <input type="number" name="Nechta" id="Nechta" class="form-control" required />
+                            <input type="number" name="Nechta" id="Nechta" class="form-control" value="0" required />
+                        </div>
+                    </div>
+
+                    <div class="form-group display2" style="display: none">
+                        <label class="col-sm-6 control-label">Nechta (Tovar Dona) Keldi:</label>
+                        <div class="col-sm-6">
+                            <input type="number" name="Nechtadona" class="form-control" value="0" required />
                         </div>
                     </div>
 
                     <div class="form-group display" style="display: none">
-                        <label class="col-sm-2 control-label">Nechta (Tovar Dona) Keldi:</label>
-                        <div class="col-sm-6">
-                            <input type="number" name="Nechtadona" class="form-control" required />
-                        </div>
-                    </div>
-
-                    <div class="form-group display" style="display: none">
-                        <label class="col-sm-2 control-label">Ombordagi miqdori:</label>
+                        <label class="col-sm-6 control-label">Ombordagi miqdori:</label>
                         <div class="col-sm-6">
                             <input type="number" name="Ombordagi" disabled id="Ombordagi" class="form-control" />
                         </div>
                     </div>
 
                     <div class="form-group display" style="display: none">
-                        <label class="col-sm-2 control-label">Muddati:</label>
+                        <label class="col-sm-6 control-label">Muddati:</label>
                         <div class="col-sm-6">
                             <input type="date" name="muddat" id="muddat" class="form-control" required />
                         </div>
                     </div>
                     <input type="hidden" name="tovarid"  id="tovarid" />
                     <br>
-                    <button type="button" id="submit" class="btn btn-primary" onclick="material_db()">Submit</button>
+                    <button type="button" id="submit" class="btn btn-primary" onclick="material_db()">Saqlash</button>
                 </form>
             </div>
         </div>
@@ -363,6 +363,7 @@ $(document).ready(function(){
                     if (data.nomi !== null) {
                         $('#tovarid').val(data.tovarid);
                         $('#tnomi').val(data.nomi);
+                        if(data.dnarxi > 0){$('.display2').show();}else{$('.display2').hide();}
                         $('#dnarxi').val(data.dnarxi);
                         $('#snarxi').val(data.snarxi);
                         $('#Ombordagi').val(data.ombor);

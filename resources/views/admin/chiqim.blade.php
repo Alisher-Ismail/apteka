@@ -174,7 +174,27 @@ $(document).ready(function(){
             <div class="card-body">
                 <form class="form-horizontal" action="{{ route('chiqim.store') }}" name="material" id="material" method="post">
                     @csrf <!-- CSRF token -->
+                    <div class="form-group Barcode1">
+                        <label class="col-sm-6 control-label">Maxsulot Nomi:</label>
+                        <select class="form-control select2 tovar" id="tovar" style="width: 64%">
+                        <option>Tanlang</option> 
+                        @foreach($kirims as $kir)
+                        @foreach($tovars as $tovar)
+                        @if($kir->tovar_id == $tovar->id)
+                        <option value="{{ $tovar->barcode }}">{{ $tovar->barcode }}</option>
+                        @endif
+                        @endforeach
+                        @endforeach 
+                        </select>
+                        </div>
+                        <script>
+                            $('.select2').select2();
+                            $('#tovar').on('change', function() {
+                            var barcodeId = $(this).val();
+                            $('#Barcode').val(barcodeId).trigger('change'); // Trigger change event after setting valu
+                            });       
 
+                        </script>
                     <div class="form-group Barcode1">
                         <label class="col-sm-6 control-label">Barcode:</label>
                             <input type="text" name="barcode" id="Barcode" class="form-control Barcode" autofocus required/>
@@ -230,7 +250,7 @@ $(document).ready(function(){
                     <input type="hidden" name="userid"  id="userid"  value="{{ Auth::id() }}"/>
 
                     <br>
-                    <button type="button" id="submit" class="btn btn-primary" onclick="material_db()">Submit</button>
+                    <button type="button" id="submit" class="btn btn-primary" onclick="material_db()">Saqlash</button>
 
                    </form>
             </div>

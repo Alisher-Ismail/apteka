@@ -8,6 +8,7 @@ use App\Http\Controllers\TovarController;
 use App\Http\Controllers\KirimController;
 use App\Http\Controllers\ChiqimsavdoController;
 use App\Http\Controllers\TitleController;
+use App\Http\Controllers\MuddatController;
 use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +22,8 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/', [AuthManager::class, 'adminlogin'])->name('login');
-
+Route::get('/license', [MuddatController::class, 'showForm'])->name('license');
+Route::post('/license', [MuddatController::class, 'handleForm'])->name('license.submit');
 Route::middleware('auth')->group(function () {
     //title section    
     Route::get('/admintitle', [TitleController::class, 'title'])->name('admintitle');

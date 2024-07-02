@@ -141,7 +141,7 @@
             @csrf <!-- CSRF token -->
 
             <div class="form-group display" >
-                    <label class="col-sm-2 control-label">Tovarni Tanlang:</label>
+                    <label class="col-sm-6 control-label">Tovarni Tanlang:</label>
                     <div class="col-sm-6">
                         <select name="tovarid" id="tovarid" class="form-control select2" required>
                             <option value="">Tanang</option>
@@ -153,42 +153,42 @@
                 </div>
 
                 <div class="form-group display" style="display: none">
-                    <label class="col-sm-2 control-label">Sotilish Narxi:</label>
+                    <label class="col-sm-6 control-label">Sotilish Narxi:</label>
                     <div class="col-sm-6">
                         <input type="number" name="snarxi" id="snarxi" disabled class="form-control" />
                     </div>
                 </div>
 
                 <div class="form-group display2" style="display: none">
-                    <label class="col-sm-2 control-label">Sotilish (Dona) Narxi:</label>
+                    <label class="col-sm-6 control-label">Sotilish (Dona) Narxi:</label>
                     <div class="col-sm-6">
                         <input type="number" name="dnarxi" id="dnarxi" disabled class="form-control" />
                     </div>
                 </div>
                 
                 <div class="form-group display" style="display: none">
-                    <label class="col-sm-2 control-label">Nechta (Tovar) Keldi:</label>
+                    <label class="col-sm-6 control-label">Nechta (Tovar) Keldi:</label>
                     <div class="col-sm-6">
                         <input type="number" name="Nechta" id="Nechta" class="form-control" value="0"/>
                     </div>
                 </div>
 
                 <div class="form-group display2" style="display: none">
-                    <label class="col-sm-2 control-label">Nechta (Tovar Dona) Keldi:</label>
+                    <label class="col-sm-6 control-label">Nechta (Tovar Dona) Keldi:</label>
                     <div class="col-sm-6">
                     <input type="number" name="Nechtadona" class="form-control" value="0" />
                     </div>
                 </div>
 
                 <div class="form-group display" style="display: none">
-                    <label class="col-sm-2 control-label">Ombordagi miqdori:</label>
+                    <label class="col-sm-6 control-label">Ombordagi miqdori:</label>
                     <div class="col-sm-6">
                         <input type="number" name="Ombordagi" disabled id="Ombordagi" class="form-control" />
                     </div>
                 </div>
 
                 <div class="form-group display" style="display: none">
-                    <label class="col-sm-2 control-label">Muddati:</label>
+                    <label class="col-sm-6 control-label">Muddati:</label>
                     <div class="col-sm-6">
                         <input type="date" name="muddat" id="muddat" class="form-control" />
                     </div>

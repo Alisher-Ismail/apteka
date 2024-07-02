@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Carbon\Carbon;
 
 class AuthManager extends Controller
 {
@@ -20,14 +21,25 @@ class AuthManager extends Controller
         return view('admin.login');
     }
 
-    function adminloginPost(Request $request){
+    public function adminloginPost(Request $request)
+    {
         $request->validate([
-            'email'=>'required',
-            'password'=>'required',
+            'email' => 'required',
+            'password' => 'required',
         ]);
 
         $data = $request->only('email', 'password');
-        if(Auth::attempt($data)){
+        if (Auth::attempt($data)) {
+            // Check if the user's muddat is greater than today's date
+            $user = Auth::user();
+            if ($user->muddat && Carbon::parse($user->muddat)->lt(Carbon::now())) {
+                // Logout the user
+                Auth::logout();
+
+                // Redirect to the license page
+                return redirect()->route('license')->withErrors(['Litsenziya' => 'Sizning muddatingiz tugagan.']);
+            }
+
             return redirect()->intended(route('adminhome'));
         }
 
