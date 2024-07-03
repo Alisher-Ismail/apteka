@@ -1,4 +1,21 @@
 @extends('admin.base')
+<style>
+
+.form-group {
+    display: none; /* Initially hidden */
+    display: flex;
+    align-items: center;
+}
+
+.form-group label {
+    flex: 1;
+    font-size: 13px; /* Adjust the font size here */
+}
+
+.form-group input {
+    flex: 2;
+}
+    </style>
 @section('content')
 @php
         date_default_timezone_set('Asia/Tashkent');
@@ -109,9 +126,7 @@
 		
     }
 </script>
-
-<br/>
-<div class="container-fluid px-4">
+<div class="col-xl-6">
     <div class="card mb-4">
         <div class="card-header">
             <i class="fa-solid fa-weight-scale"></i>
@@ -141,8 +156,8 @@
             @csrf <!-- CSRF token -->
 
             <div class="form-group display" >
-                    <label class="col-sm-6 control-label">Tovarni Tanlang:</label>
-                    <div class="col-sm-6">
+                    <label class=" control-label">Tovarni Tanlang:</label>
+                    <div class="col-sm-8">
                         <select name="tovarid" id="tovarid" class="form-control select2" required>
                             <option value="">Tanang</option>
                             @foreach ($tovars as $tovar)
@@ -153,43 +168,43 @@
                 </div>
 
                 <div class="form-group display" style="display: none">
-                    <label class="col-sm-6 control-label">Sotilish Narxi:</label>
-                    <div class="col-sm-6">
+                    <label class=" control-label">Sotilish Narxi:</label>
+                    <div class="col-sm-8">
                         <input type="number" name="snarxi" id="snarxi" disabled class="form-control" />
                     </div>
                 </div>
 
                 <div class="form-group display2" style="display: none">
-                    <label class="col-sm-6 control-label">Sotilish (Dona) Narxi:</label>
-                    <div class="col-sm-6">
+                    <label class=" control-label">Sotilish (Dona) Narxi:</label>
+                    <div class="col-sm-8">
                         <input type="number" name="dnarxi" id="dnarxi" disabled class="form-control" />
                     </div>
                 </div>
                 
                 <div class="form-group display" style="display: none">
-                    <label class="col-sm-6 control-label">Nechta (Tovar) Keldi:</label>
-                    <div class="col-sm-6">
+                    <label class=" control-label">Nechta (Tovar) Keldi:</label>
+                    <div class="col-sm-8">
                         <input type="number" name="Nechta" id="Nechta" class="form-control" value="0"/>
                     </div>
                 </div>
 
                 <div class="form-group display2" style="display: none">
-                    <label class="col-sm-6 control-label">Nechta (Tovar Dona) Keldi:</label>
-                    <div class="col-sm-6">
+                    <label class=" control-label">Nechta (Tovar Dona) Keldi:</label>
+                    <div class="col-sm-8">
                     <input type="number" name="Nechtadona" class="form-control" value="0" />
                     </div>
                 </div>
 
                 <div class="form-group display" style="display: none">
-                    <label class="col-sm-6 control-label">Ombordagi miqdori:</label>
-                    <div class="col-sm-6">
+                    <label class=" control-label">Ombordagi miqdori:</label>
+                    <div class="col-sm-8">
                         <input type="number" name="Ombordagi" disabled id="Ombordagi" class="form-control" />
                     </div>
                 </div>
 
                 <div class="form-group display" style="display: none">
-                    <label class="col-sm-6 control-label">Muddati:</label>
-                    <div class="col-sm-6">
+                    <label class=" control-label">Muddati:</label>
+                    <div class="col-sm-8">
                         <input type="date" name="muddat" id="muddat" class="form-control" />
                     </div>
                 </div>

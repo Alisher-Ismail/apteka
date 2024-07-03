@@ -11,7 +11,7 @@
     <div class="card mb-4">
         <div class="card-header">
             <i class="fa-solid fa-weight-scale"></i>
-            Tovarni Kiritish
+            Savdoni Qidirish
         </div>
         <!-- Display success message -->
         @if (session('success'))

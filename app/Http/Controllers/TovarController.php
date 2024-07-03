@@ -104,7 +104,7 @@ class TovarController extends Controller
 {
     // Validate the request data
     $validatedData = $request->validate([
-        'barcode' => 'required|string|max:555|unique:tovar',
+        //'barcode' => 'required|string|max:555|unique:tovar',
         'materialnomi' => 'required|string|max:555',
         'olchamid' => 'required|integer',
         'OlinganNarxi' => 'required|integer',
@@ -117,7 +117,7 @@ class TovarController extends Controller
     try {
         // Create a new Tovar model instance and save it to the database
         Tovar::create([
-            'barcode' => $validatedData['barcode'],
+            'barcode' => $request['barcode'],
             'nomi' => $validatedData['materialnomi'],
             'olingannarx' => $validatedData['OlinganNarxi'],
             'sotilgannarx' => $validatedData['SotilishNarx'],

@@ -201,7 +201,7 @@ $(document).ready(function(){
 
                 <div class="search-container">
     <div>
-        <label for="perPage">Bir sahida nechta ko'rsatilsin:</label>
+        <label for="perPage">Bir sahifada nechta ko'rsatilsin:</label>
         <select id="perPage" onchange="changePerPage()">
             <option value="5">5</option>
             <option value="10" selected>10</option>

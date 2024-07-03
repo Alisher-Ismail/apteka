@@ -104,6 +104,7 @@ Route::middleware('auth')->group(function () {
             });
             /////////////////////////
             
+            //tovarscan
             Route::get('/api/tovar-detailscan', function(Request $request) 
             {
             // Find the tovar by ID
@@ -140,7 +141,46 @@ Route::middleware('auth')->group(function () {
             // Return the response as JSON
             return response()->json($response);
         });
+        //tovarscan
+
+        //tovarid
+        Route::get('/api/tovarid-detailscan', function(Request $request) 
+        {
+        // Find the tovar by ID
+        $tovar = App\Models\Tovar::where('id', $request->id)->first();
         
+    
+        if ($tovar) {
+            $tovarid = $tovar->id;
+            $olchamid = $tovar->olchovid;    
+            $olcham = App\Models\Olchamlar::find($olchamid);
+            // Get all Kirim entries for the given tovar_id
+            $ombor = App\Models\Kirim::where('tovar_id', $tovarid)->where('muddati', '>', now())->get();
+                    // Prepare the response data
+            $response = [
+                'tovarid' => $tovar->id,
+                'nomi' => $tovar->nomi,
+                'olcham2' => $olcham->olcham_nomi,
+                'dnarxi' => $tovar->dsotilgannarx,
+                'snarxi' => $tovar->sotilgannarx,
+                'ombor' => $ombor->isNotEmpty() ? $ombor->sum('miqdori') : 0, // Summing up the quantities if ombor is not empty
+                'ombordona' => $ombor->isNotEmpty() ? $ombor->sum('dona') : 0 // Summing up the quantities if ombor is not empty
+            ];
+        } else {
+            // Return an empty response indicating the barcode was not found
+            $response = [
+                'nomi' => null,
+                'tovarid' => 0,
+                'dnarxi' => 0,
+                'snarxi' => 0,
+                'ombor' => 0
+            ];
+        }
+    
+        // Return the response as JSON
+        return response()->json($response);
+    });
+    //tovarid
         Route::get('/api/tovar-miqdori', function(Request $request) 
         {
         // Find the tovar by ID

@@ -1,6 +1,7 @@
 @extends('admin.base')
 <style>
-    .form-group {
+
+.form-group {
     display: none; /* Initially hidden */
     display: flex;
     align-items: center;
@@ -14,7 +15,6 @@
 .form-group input {
     flex: 2;
 }
-
     </style>
 @section('content')
     @php
@@ -174,76 +174,88 @@ $(document).ready(function(){
             <div class="card-body">
                 <form class="form-horizontal" action="{{ route('chiqim.store') }}" name="material" id="material" method="post">
                     @csrf <!-- CSRF token -->
+
+
                     <div class="form-group Barcode1">
-                        <label class="col-sm-6 control-label">Maxsulot Nomi:</label>
-                        <select class="form-control select2 tovar" id="tovar" style="width: 64%">
+                        <label class="control-label">Maxsulot Nomi:</label>
+                        <div class="col-sm-9">
+                            <select class="form-control select2 tovar" id="tovar" style="width: 100%">
                         <option>Tanlang</option> 
                         @foreach($kirims as $kir)
                         @foreach($tovars as $tovar)
                         @if($kir->tovar_id == $tovar->id)
-                        <option value="{{ $tovar->barcode }}">{{ $tovar->barcode }}</option>
+                        <option value="{{ $tovar->id }}">{{ $tovar->nomi }}</option>
                         @endif
                         @endforeach
                         @endforeach 
                         </select>
                         </div>
-                        <script>
-                            $('.select2').select2();
-                            $('#tovar').on('change', function() {
-                            var barcodeId = $(this).val();
-                            $('#Barcode').val(barcodeId).trigger('change'); // Trigger change event after setting valu
-                            });       
-
-                        </script>
+                        </div>
                     <div class="form-group Barcode1">
-                        <label class="col-sm-6 control-label">Barcode:</label>
-                            <input type="text" name="barcode" id="Barcode" class="form-control Barcode" autofocus required/>
+                        <label class="control-label">Barcode:</label>
+                        <div class="col-sm-9">  
+                        <input type="text" name="barcode" id="Barcode" class="form-control Barcode" autofocus required/>
+                    </div>
                     </div>
 
                     <div class="form-group display" style="display: none">
-                        <label class="col-sm-6 control-label">Tovar Nomi:</label>
-                            <input type="text" name="tnomi" id="tnomi" disabled class="form-control" />
+                        <label class="control-label">Tovar Nomi:</label>
+                        <div class="col-sm-9">
+                               <input type="text" name="tnomi" id="tnomi" disabled class="form-control" />
+                    </div>
                     </div>
 
                     <div class="form-group display" style="display: none;">
-                        <label class="col-sm-6 control-label">Sotilish Narxi:</label>
-                            <input type="text" name="snarxi" id="snarxi" disabled class="form-control" />
+                        <label class="control-label">Sotilish Narxi:</label>
+                        <div class="col-sm-9">
+                              <input type="text" name="snarxi" id="snarxi" disabled class="form-control" />
+                    </div>
                     </div>
 
                     <div class="form-group display2" style="display: none">
-                        <label class="col-sm-6 control-label">Sotilish (Dona) Narxi:</label>
-                            <input type="text" name="dnarxi" id="dnarxi" disabled class="form-control" />
+                        <label class="control-label">Sotilish (Dona) Narxi:</label>
+                        <div class="col-sm-9">
+                               <input type="text" name="dnarxi" id="dnarxi" disabled class="form-control" />
+                    </div>
                     </div>
                     
                     <div class="form-group display" style="display: none">
-                        <label class="col-sm-6 control-label">Ombordagi miqdori:</label>
+                        <label class="control-label">Ombordagi miqdori:</label>
+                        <div class="col-sm-9">
                             <input type="text" name="Ombordagi" disabled id="Ombordagi" class="form-control" />
+                    </div>
                     </div>
 
                     <div class="form-group display" style="display: none">
-                        <label class="col-sm-6 control-label">Miqdori:</label>
-                            <input type="number" name="Miqdori" min="0" id="Miqdori" class="form-control" required />
+                        <label class="control-label">Miqdori:</label>
+                        <div class="col-sm-9">
+                                <input type="number" name="Miqdori" min="0" id="Miqdori" class="form-control" required />
+                    </div>
                     </div>
 
                     <div class="form-group display2" style="display: none; ">
                         <label class="control-label" >Miqdori (dona):</label>
-                        <input type="number" name="dona" id="dona" min="0" class="form-control" required />
-                    </div>
+                        <div class="col-sm-9">
+                            <input type="number" name="dona" id="dona" min="0" class="form-control" required />
+                    </div></div>
 
                     <div class="form-group display" style="display: none; ">
                         <label class="control-label" >Summa:</label>
-                        <input type="number" name="Summa" id="Summa" min="0" class="form-control" required  readonly />
-                    </div>
+                        <div class="col-sm-9">
+                            <input type="number" name="Summa" id="Summa" min="0" class="form-control" required  readonly />
+                    </div></div>
 
                     <div class="form-group display2" style="display: none; ">
                         <label class="control-label" >Summa (dona):</label>
-                        <input type="number" name="Summadona" id="Summadona" min="0" class="form-control" required readonly/>
-                    </div>
+                        <div class="col-sm-9">
+                            <input type="number" name="Summadona" id="Summadona" min="0" class="form-control" required readonly/>
+                    </div></div>
 
                     <div class="form-group display" style="display: none; ">
                         <label class="control-label" >To`liq Summa:</label>
-                        <input type="number" name="Summat" id="Summat" min="0" class="form-control" required readonly/>
-                    </div>
+                        <div class="col-sm-9">
+                            <input type="number" name="Summat" id="Summat" min="0" class="form-control" required readonly/>
+                    </div></div>
                 
                     <input type="hidden" name="tovarid"  id="tovarid" />
 
@@ -345,6 +357,74 @@ $(document).ready(function(){
         </div>
     </div>
 <div>
+<script>
+                            $('.select2').select2();
+                            $('#tovar').on('change', function() {
+    var barcodeId = $(this).val();
+    //alert(barcodeId);
+    if (barcodeId) {
+        $.ajax({
+            url: '{{ url("api/tovarid-detailscan") }}',
+            type: 'GET',
+            data: { id: barcodeId },
+            success: function(data) {
+                if (data.tovarid > 0) {
+                    if (data.ombor > 0 || data.ombordona > 0) {
+                        //alert(data.olcham2);
+                        $('.display').show();
+                        $('#tovarid').val(data.tovarid);
+                        $('#tnomi').val(data.nomi);
+                        if (data.dnarxi > 0) { $('.display2').show(); $('#dnarxi').val(data.dnarxi); } else { $('.display2').hide(); $('#dnarxi').val(''); }
+                        $('#snarxi').val(data.snarxi);
+                        $('#Ombordagi').val(data.ombor+" "+data.olcham2+" "+data.ombordona+" dona");
+                        $('#dona').val(0);
+                        $('#Summadona').val(0);
+                        $('#Summa').val(0);
+                        $('#Miqdori').val(0);
+                        $('#Summat').val(0);
+                    } else {
+                        alert("Tovar tugagan!");
+                        $('.display').hide();
+                        $('.display2').hide();
+                        $('#tovarid').val('');
+                        $('#tnomi').val('');
+                        $('#dnarxi').val('');
+                        $('#snarxi').val('');
+                        $('#Ombordagi').val('');
+                        $('#dona').val(0);
+                        $('#Summadona').val(0);
+                        $('#Summa').val(0);
+                        $('#Miqdori').val(0);
+                        $('#Summat').val(0);
+                    }
+                } else {
+                    alert('Bu barcode oid tovar mavjud emas');
+                    $('.display').hide();
+                    $('.display2').hide();
+                    $('#tovarid').val('');
+                    $('#tnomi').val('');
+                    $('#dnarxi').val('');
+                    $('#snarxi').val('');
+                    $('#Ombordagi').val('');
+                    $('#dona').val(0);
+                    $('#Summadona').val(0);
+                    $('#Summa').val(0);
+                    $('#Miqdori').val(0);
+                    $('#Summat').val(0);
+                }
+            },
+            error: function(xhr) {
+                console.log('Error:', xhr);
+                alert(xhr);
+            }
+        });
+    } else {
+        $('#snarxi').val(0);
+        $('#Ombordagi').val(0);
+    }
+});      
+
+                        </script>
     <script>
    $(document).ready(function() {
     // Barcode change event

@@ -1,8 +1,24 @@
 @extends('admin.base')
+<style>
+
+.form-group {
+    display: none; /* Initially hidden */
+    display: flex;
+    align-items: center;
+}
+
+.form-group label {
+    flex: 1;
+    font-size: 13px; /* Adjust the font size here */
+}
+
+.form-group input {
+    flex: 2;
+}
+    </style>
 @section('content')
 
-<br/>
-<div class="container-fluid px-4">
+<div class="col-xl-6">
     <div class="card mb-4">
         <div class="card-header">
             <i class="fa-solid fa-weight-scale"></i>
@@ -28,22 +44,23 @@
         <form method="post" action="{{ route('tovar.store') }}" id="add-form" enctype="multipart/form-data">
             @csrf <!-- CSRF token -->
                 <div class="form-group Barcode1">
-                    <label class="col-sm-2 control-label">Barcode:</label>
-                    <div class="col-sm-6">
-                        <input type="text" name="barcode" id="Barcode" class="form-control Barcode" autofocus required/>
+                    <label class="col-sm-6 control-label">Barcode:</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="barcode" id="Barcode" class="form-control Barcode" autofocus />
+                    </div>
+                </div>
+            
+
+                <div class="form-group display" style="">
+                    <label class="col-sm-6 control-label">Material Nomi:</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="materialnomi" id="materialnomi" class="form-control materialnomi" required/>
                     </div>
                 </div>
 
-                <div class="form-group display" style="display:none;">
-                    <label class="col-sm-2 control-label">Material Nomi:</label>
-                    <div class="col-sm-6">
-                        <input type="text" name="materialnomi" id="materialnomi" class="form-control materialnomi" />
-                    </div>
-                </div>
-
-                <div class="form-group display" style="display:none;">
-                    <label class="col-sm-2 control-label">O`lchov Birligi:</label>
-                    <div class="col-sm-6">
+                <div class="form-group display" style="">
+                    <label class="col-sm-6 control-label">O`lchov Birligi:</label>
+                    <div class="col-sm-8">
                         <select name="olchamid" id="olchamid" class="form-control select2" required>
                             <option value="">Tanlang</option>
                             @foreach ($olchams as $olcham)
@@ -54,38 +71,38 @@
                 </div>
                 
 
-                <div class="form-group display" style="display:none;">
-                    <label class="col-sm-2 control-label">Olingan Narxi:</label>
-                    <div class="col-sm-6">
-                        <input type="number" name="OlinganNarxi" class="form-control" />
+                <div class="form-group display" style="">
+                    <label class="col-sm-6 control-label">Olingan Narxi:</label>
+                    <div class="col-sm-8">
+                        <input type="number" name="OlinganNarxi" class="form-control" required/>
                     </div>
                 </div>
 
-                <div class="form-group display" style="display:none;">
-                    <label class="col-sm-2 control-label">Sotilish Narx:</label>
-                    <div class="col-sm-6">
-                        <input type="number" name="SotilishNarx" class="form-control" />
+                <div class="form-group display" style="">
+                    <label class="col-sm-6 control-label">Sotilish Narx:</label>
+                    <div class="col-sm-8">
+                        <input type="number" name="SotilishNarx" class="form-control" required/>
                     </div>
                 </div>
 
-                <div class="form-group display" style="display:none;">
-                    <label class="col-sm-2 control-label">Pachkada nechta bo`ladi:</label>
-                    <div class="col-sm-6">
-                        <input type="number" name="Pachkadanechta" class="form-control" />
+                <div class="form-group display" style="">
+                    <label class="col-sm-6 control-label">Pachkada nechta bo`ladi:</label>
+                    <div class="col-sm-8">
+                        <input type="number" name="Pachkadanechta" class="form-control" value="0" required/>
                     </div>
                 </div>
 
-                <div class="form-group display" style="display:none;">
-                    <label class="col-sm-2 control-label">Dona Olingan Narxi:</label>
-                    <div class="col-sm-6">
-                        <input type="number" name="DonaOlinganNarxi" class="form-control" />
+                <div class="form-group display" style="">
+                    <label class="col-sm-6 control-label">Dona Olingan Narxi:</label>
+                    <div class="col-sm-8">
+                        <input type="number" name="DonaOlinganNarxi" class="form-control" value="0" required />
                     </div>
                 </div>
 
-                <div class="form-group display" style="display:none;">
-                    <label class="col-sm-2 control-label">Dona Sotilish Narx:</label>
-                    <div class="col-sm-6">
-                        <input type="number" name="DonaSotilishNarx" class="form-control" />
+                <div class="form-group display" style="">
+                    <label class="col-sm-6 control-label">Dona Sotilish Narx:</label>
+                    <div class="col-sm-8">
+                        <input type="number" name="DonaSotilishNarx" class="form-control" value="0" required/>
                     </div>
                 </div>
 
