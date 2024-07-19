@@ -9,5 +9,5 @@ class Chiqimsavdo extends Model
 {
     use HasFactory;
     protected $table = 'chiqimsavdo';
-    protected $fillable = ['id', 'tovar_id', 'miqdori', 'miqdoridona', 'summa', 'summadona', 'toliqsumma', 'bolimid', 'userid', 'created_at'];
+    protected $fillable = ['id', 'tovar_id', 'miqdori', 'miqdoridona', 'summa', 'summadona', 'toliqsumma', 'bolimid', 'userid', 'created_at', 'firmaid'];
 }

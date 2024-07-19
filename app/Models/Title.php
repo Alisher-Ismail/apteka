@@ -9,5 +9,5 @@ class Title extends Model
 {
     use HasFactory;
     protected $table = 'title';
-    protected $fillable = ['id', 'title'];
+    protected $fillable = ['id', 'title', 'firmaid'];
 }

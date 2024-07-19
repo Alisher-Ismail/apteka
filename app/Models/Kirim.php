@@ -9,5 +9,5 @@ class Kirim extends Model
 {
     use HasFactory;
     protected $table = 'kirim';
-    protected $fillable = ['id', 'tovar_id', 'olcham_id', 'miqdori', 'dona', 'muddati'];
+    protected $fillable = ['id', 'tovar_id', 'olcham_id', 'miqdori', 'dona', 'muddati', 'firmaid'];
 }

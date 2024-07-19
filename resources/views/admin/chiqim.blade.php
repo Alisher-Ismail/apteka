@@ -177,20 +177,28 @@ $(document).ready(function(){
 
 
                     <div class="form-group Barcode1">
-                        <label class="control-label">Maxsulot Nomi:</label>
-                        <div class="col-sm-9">
-                            <select class="form-control select2 tovar" id="tovar" style="width: 100%">
-                        <option>Tanlang</option> 
-                        @foreach($kirims as $kir)
-                        @foreach($tovars as $tovar)
-                        @if($kir->tovar_id == $tovar->id)
+    <label class="control-label">Maxsulot Nomi:</label>
+    <div class="col-sm-9">
+        <select class="form-control select2 tovar" id="tovar" style="width: 100%">
+            <option>Tanlang</option> 
+            @php
+                $addedTovarIds = [];
+            @endphp
+            @foreach($kirims as $kir)
+                @foreach($tovars as $tovar)
+                    @if($kir->tovar_id == $tovar->id && !in_array($tovar->id, $addedTovarIds))
                         <option value="{{ $tovar->id }}">{{ $tovar->nomi }}</option>
-                        @endif
-                        @endforeach
-                        @endforeach 
-                        </select>
-                        </div>
-                        </div>
+                        @php
+                            $addedTovarIds[] = $tovar->id;
+                        @endphp
+                        @break
+                    @endif
+                @endforeach
+            @endforeach 
+        </select>
+    </div>
+</div>
+
                     <div class="form-group Barcode1">
                         <label class="control-label">Barcode:</label>
                         <div class="col-sm-9">  

@@ -12,7 +12,18 @@ class ViewServiceProvider extends ServiceProvider
     {
         // Share the title with all views
         View::composer('*', function ($view) {
-            $title = Title::orderBy('id', 'desc')->first();
+            $user = auth()->user();
+            $userId = 0;
+            
+            if ($user) {
+                if($user->type == 'admin'){
+                    $userId = $user->id;     
+                } else {
+                    $userId = $user->firmaid;
+                }
+            }
+            
+            $title = Title::where('firmaid', $userId)->first();
             $view->with('title', $title);
         });
     }
@@ -22,4 +33,3 @@ class ViewServiceProvider extends ServiceProvider
         //
     }
 }
-

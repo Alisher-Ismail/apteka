@@ -51,7 +51,7 @@
                                         <form method="post" action="{{route('adminlogin.post')}}" id="add-form">
                                             @csrf
                                             <div class="form-floating mb-3">
-                                                <input class="form-control" id="username" name="email" type="email" placeholder="Email" />
+                                                <input class="form-control" id="username" name="email" type="text" placeholder="Email" />
                                                 <label for="inputEmail">Login</label>
                                             </div>
                                             <div class="form-floating mb-3">
@@ -60,6 +60,8 @@
                                             </div>
                                             <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                                                 <button type="submit" class="btn btn-primary">Login</button>
+                                                <a href="{{ route ('register') }}" class="btn btn-success">Registratsiyadan O`tish</a>
+
                                             </div>
                                         </form>
                                     </div>

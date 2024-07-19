@@ -53,9 +53,25 @@ class AuthManager extends Controller
     }
 
     //add user
+    public function usersuper()
+    {   
+        $user = auth()->user();
+        $userId =  $user->firmaid;
+            
+        $users = User::where('id', '!=', $userId)->where('type', 'admin')->get();
+        return view('admin.usersuper', compact('users'));
+    }
+    
     public function user()
-    {
-        $users = User::all();
+    {   
+        $user = auth()->user();
+            $userId = 0;
+            if($user->type == 'admin'){
+                $userId = $user->id;     
+            }else{
+                $userId = $user->firmaid;
+            }
+        $users = User::where('firmaid', $userId)->get();
         return view('admin.user', compact('users'));
     }
 
@@ -63,7 +79,14 @@ class AuthManager extends Controller
     {
         // Retrieve the specific about section by its ID
         $users = User::findOrFail($id);
-        $user = User::all();
+        $user2 = auth()->user();
+            $userId = 0;
+            if($user2->type == 'admin'){
+                $userId = $user2->id;     
+            }else{
+                $userId = $user2->firmaid;
+            }
+        $user = User::where('firmaid', $userId)->get();
     
         // Pass the about section to the view
         return view('admin.useredit', compact('users', 'user'));
@@ -116,24 +139,39 @@ class AuthManager extends Controller
 
         public function store(Request $request)
         {
+            $user = auth()->user();
+            $userId = 0;
+            if($user->type == 'admin'){
+                $userId = $user->id;     
+            }else{
+                $userId = $user->firmaid;
+            }
             // Validate the request data
             $validatedData = $request->validate([
                 'ism' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users,email',
+                'email' => 'required|string|max:255',
                 'parol' => 'required|string|min:4',
                 'type' => 'required|string|max:255'
             ]);
         
             try {
+
+                $userombor = User::where('email', $validatedData['email'])->where('firmaid', $userId)->first();
+                if($userombor){
+                    return redirect()->back()->withErrors(['error' => 'Foydalanuvchi Loginini O`zgatiring']);
+                }else{
                 // Create a new User model instance and save it to the database
                 User::create([
                     'name' => $validatedData['ism'],
                     'email' => $validatedData['email'],
                     'type' => $validatedData['type'],
+                    'firmaid' => $userId,
+                    'muddat' => $user->muddat,
                     'password' => Hash::make($validatedData['parol']), // Hash the password
                 ]);
         
                 return redirect()->route('adminuser')->with('success', 'Muvaffaqiyatli Saqlandi.');
+            }
             } catch (\Exception $e) {
                 // Handle any errors that might occur
                 return redirect()->back()->withErrors(['error' => 'Xatolik']);

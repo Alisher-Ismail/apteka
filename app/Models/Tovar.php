@@ -9,5 +9,5 @@ class Tovar extends Model
 {
     use HasFactory;
     protected $table = 'tovar';
-    protected $fillable = ['nomi', 'olingannarx', 'sotilgannarx', 'olchovid', 'barcode', 'donasoni', 'dolingannarx', 'dsotilgannarx'];
+    protected $fillable = ['nomi', 'olingannarx', 'sotilgannarx', 'olchovid', 'barcode', 'donasoni', 'dolingannarx', 'dsotilgannarx', 'firmaid'];
 }

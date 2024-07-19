@@ -10,6 +10,6 @@ class Olchamlar extends Model
     use HasFactory;
 
     protected $table = 'olchamlar';
-    protected $fillable = ['id', 'olcham_nomi'];
+    protected $fillable = ['id', 'olcham_nomi', 'firmaid'];
 }
 

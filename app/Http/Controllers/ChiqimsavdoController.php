@@ -15,31 +15,52 @@ class ChiqimsavdoController extends Controller
      //add Kirim
      public function chiqimbugunson()
      {
+        $user = auth()->user();
+            $userId = 0;
+            if($user->type == 'admin'){
+                $userId = $user->id;     
+            }else{
+                $userId = $user->firmaid;
+            }
          $today = Carbon::today();
-         $tovars = Tovar::all();
-         $olchams = Olchamlar::all();
-         $users = User::all();
-         $chiqim = Chiqimsavdo::where('sotildi', 1)->whereDate('created_at', $today)->get();
+         $tovars = Tovar::where('firmaid', $userId)->get();
+         $olchams = Olchamlar::where('firmaid', $userId)->get();
+         $users = User::where('firmaid', $userId)->orwhere('id', $userId)->get();
+         $chiqim = Chiqimsavdo::where('firmaid', $userId)->where('sotildi', 1)->whereDate('created_at', $today)->get();
          return view('admin.chiqim_bugun_son', compact('olchams', 'tovars', 'users', 'chiqim'));
      }
           public function chiqimbugun()
      {
-         $today = Carbon::today();
-         $tovars = Tovar::all();
-         $olchams = Olchamlar::all();
-         $users = User::all();
-         $chiqim = Chiqimsavdo::where('sotildi', 1)->whereDate('created_at', $today)->get();
+        $user = auth()->user();
+        $userId = 0;
+        if($user->type == 'admin'){
+            $userId = $user->id;     
+        }else{
+            $userId = $user->firmaid;
+        }
+     $today = Carbon::today();
+     $tovars = Tovar::where('firmaid', $userId)->get();
+     $olchams = Olchamlar::where('firmaid', $userId)->get();
+     $users = User::where('firmaid', $userId)->orwhere('id', $userId)->get();
+         $chiqim = Chiqimsavdo::where('firmaid', $userId)->where('sotildi', 1)->whereDate('created_at', $today)->get();
          return view('admin.chiqim_bugun', compact('olchams', 'tovars', 'users', 'chiqim'));
      }
      
      public function chiqim()
-     {
-         $tovars = Tovar::all();
-         $kirims = Kirim::where('muddati', '>', now())->orderBy('muddati', 'desc')->get();
+     {  
+        $user = auth()->user();
+        $userId = 0;
+        if($user->type == 'admin'){
+            $userId = $user->id;     
+        }else{
+            $userId = $user->firmaid;
+        }
+        $tovars = Tovar::where('firmaid', $userId)->get();
+        $kirims = Kirim::where('firmaid', $userId)->where('muddati', '>', now())->orderBy('muddati', 'desc')->get();
 
-         $olchams = Olchamlar::all();
-         $chiqims = Chiqimsavdo::all();
-         $chiqim = Chiqimsavdo::where('sotildi', 0)->get();
+         $olchams = Olchamlar::where('firmaid', $userId)->get();
+         $chiqims = Chiqimsavdo::where('firmaid', $userId)->get();
+         $chiqim = Chiqimsavdo::where('firmaid', $userId)->where('sotildi', 0)->get();
          return view('admin.chiqim', compact('kirims', 'olchams', 'tovars', 'chiqims', 'chiqim'));
      }
 
@@ -53,8 +74,15 @@ class ChiqimsavdoController extends Controller
 
      public function sotildi()
      {
+        $user = auth()->user();
+        $userId = 0;
+        if($user->type == 'admin'){
+            $userId = $user->id;     
+        }else{
+            $userId = $user->firmaid;
+        }
          // Retrieve all records where 'sotildi' is 0
-         $users = Chiqimsavdo::where('sotildi', 0)->get();
+         $users = Chiqimsavdo::where('firmaid', $userId)->where('sotildi', 0)->get();
      
          // Check if any records were found
          if ($users->isEmpty()) {
@@ -119,6 +147,14 @@ class ChiqimsavdoController extends Controller
  
      public function store(Request $request)
      {
+        $user = auth()->user();
+        $userId = 0;
+        if($user->type == 'admin'){
+            $userId = $user->id;     
+        }else{
+            $userId = $user->firmaid;
+        }
+
         $currentDateTime = Carbon::now('Asia/Tashkent');
          // Validate the request data
          $validatedData = $request->validate([
@@ -133,7 +169,7 @@ class ChiqimsavdoController extends Controller
      
          try {
              // Create a new Chiqimsavdo model instance and save it to the database
-             $latest = Chiqimsavdo::where('sotildi', 1)->latest()->first();
+             $latest = Chiqimsavdo::where('firmaid', $userId)->where('sotildi', 1)->latest()->first();
              $bolimid = 0;
              
              if ($latest) {
@@ -151,7 +187,7 @@ class ChiqimsavdoController extends Controller
              //tovar detial
              while ($dona > 0) {
                 // Assuming Kirim is an Eloquent model
-                $ombor2 = Kirim::where('tovar_id', $validatedData['tovarid'])
+                $ombor2 = Kirim::where('firmaid', $userId)->where('tovar_id', $validatedData['tovarid'])
                 ->where('muddati', '>', now())
                 ->whereRaw('CAST(dona AS SIGNED) > 0')
                 ->first();
@@ -174,7 +210,7 @@ class ChiqimsavdoController extends Controller
 
              while ($miqdori > 0) {
                 // Assuming Kirim is an Eloquent model
-                $ombor = Kirim::where('tovar_id', $validatedData['tovarid'])->where('muddati', '>', now())->first();            
+                $ombor = Kirim::where('firmaid', $userId)->where('tovar_id', $validatedData['tovarid'])->where('muddati', '>', now())->first();            
                 $tovar = Tovar::findOrFail($validatedData['tovarid']);
                 $tdona = $tovar->donasoni;
 
@@ -203,6 +239,7 @@ class ChiqimsavdoController extends Controller
                  'toliqsumma' => $validatedData['Summat'],
                  'userid' => $validatedData['userid'],
                  'bolimid' => $bolimid,
+                 'firmaid' => $userId,
                  'created_at' => $currentDateTime,
              ]);
      
@@ -215,6 +252,14 @@ class ChiqimsavdoController extends Controller
 
      public function chiqimsanaqidir(Request $request)
      {
+        $user = auth()->user();
+        $userId = 0;
+        if($user->type == 'admin'){
+            $userId = $user->id;     
+        }else{
+            $userId = $user->firmaid;
+        }
+
          // Validate the request data
          $validatedData = $request->validate([
              'sanadan' => 'required|date',      // Assuming 'sanadan' is a date field
@@ -230,18 +275,26 @@ class ChiqimsavdoController extends Controller
             $query->whereDate('created_at', '>=', $sanadan)
                   ->whereDate('created_at', '<=', $sanagacha);
         })
+        ->where('firmaid', $userId)
         ->get();
 
      
          // Assuming these are necessary for your view
-         $tovars = Tovar::all();
-         $olchams = Olchamlar::all();
-         $users = User::all();
+         $tovars = Tovar::where('firmaid', $userId)->get();
+         $olchams = Olchamlar::where('firmaid', $userId)->get();
+         $users = User::where('firmaid', $userId)->orwhere('id', $userId)->get();
          return view('admin.chiqimsanashow', compact('users', 'olchams', 'tovars', 'chiqim'));
      }
      
      public function chiqimsanaqidirson(Request $request)
      {
+        $user = auth()->user();
+        $userId = 0;
+        if($user->type == 'admin'){
+            $userId = $user->id;     
+        }else{
+            $userId = $user->firmaid;
+        }
          // Validate the request data
          $validatedData = $request->validate([
              'sanadan' => 'required|date',      // Assuming 'sanadan' is a date field
@@ -257,13 +310,14 @@ class ChiqimsavdoController extends Controller
             $query->whereDate('created_at', '>=', $sanadan)
                   ->whereDate('created_at', '<=', $sanagacha);
         })
+        ->where('firmaid', $userId)
         ->get();
 
      
          // Assuming these are necessary for your view
-         $tovars = Tovar::all();
-         $olchams = Olchamlar::all();
-         $users = User::all();
+         $tovars = Tovar::where('firmaid', $userId)->get();
+         $olchams = Olchamlar::where('firmaid', $userId)->get();
+         $users = User::where('firmaid', $userId)->orwhere('id', $userId)->get();
          return view('admin.chiqimsanashowson', compact('users', 'olchams', 'tovars', 'chiqim'));
      }
 

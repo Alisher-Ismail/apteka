@@ -9,7 +9,8 @@ class TovarController extends Controller
 {   
     //check barcode exists
     public function checkBarcode(Request $request)
-{
+{   
+
     $id = $request->input('id');
     $count = Tovar::where('barcode', $id)->count();
     
@@ -22,9 +23,16 @@ class TovarController extends Controller
 
     //add tovar
     public function tovar()
-    {
-        $tovars = Tovar::all();
-        $olchams = Olchamlar::all();
+    {   
+        $user = auth()->user();
+        $userId = 0;
+        if($user->type == 'admin'){
+            $userId = $user->id;     
+        }else{
+            $userId = $user->firmaid;
+        }
+        $tovars = Tovar::where('firmaid', $userId)->get();
+        $olchams = Olchamlar::where('firmaid', $userId)->get();
         return view('admin.tovar', compact('tovars', 'olchams'));
     }
 
@@ -32,18 +40,26 @@ class TovarController extends Controller
     {
         // Retrieve the specific about section by its ID
         $tovar = Tovar::findOrFail($id);
-        $tovars = Tovar::all();
-        $olchams = Olchamlar::all();
+        $user = auth()->user();
+        $userId = 0;
+        if($user->type == 'admin'){
+            $userId = $user->id;     
+        }else{
+            $userId = $user->firmaid;
+        }
+        $tovars = Tovar::where('firmaid', $userId)->get();
+        $olchams = Olchamlar::where('firmaid', $userId)->get();
 
         // Pass the about section to the view
         return view('admin.tovaredit', compact('tovars', 'tovar', 'olchams'));
     }
     
     public function update(Request $request, $id)
-    {
+    {   
+        
         // Validate the incoming request data
         $request->validate([
-            'barcode' => 'required|string|max:555|unique:tovar,barcode,'.$id,
+            //'barcode' => 'required|string|max:555|unique:tovar,barcode,'.$id,
             'materialnomi' => 'required|string|max:555',
             'olchamid' => 'required|integer',
             'OlinganNarxi' => 'required|integer',
@@ -54,6 +70,19 @@ class TovarController extends Controller
         ]);
     
         try {
+
+            $user = auth()->user();
+    $userId = 0;
+    if($user->type == 'admin'){
+        $userId = $user->id;     
+    }else{
+        $userId = $user->firmaid;
+    }
+    $tovarchek = Tovar::where('barcode', $request->input('barcode'))->where('firmaid', $userId)->first();
+        if($tovarchek){
+            return redirect()->back()->withErrors(['error' => 'Bu shtrix kod bazaga kiritilgan']);
+        }
+        else{
             // Find the Tovar by ID
             $tovar = Tovar::findOrFail($id);
     
@@ -72,6 +101,7 @@ class TovarController extends Controller
     
             // Redirect back with a success message
             return redirect()->route('admintovar')->with('success', 'Muvaffaqiyatli Saqlandi.');
+        }
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             // Handle the case where the Tovar is not found
             return redirect()->back()->withErrors(['error' => 'Tovar topilmadi']);
@@ -102,6 +132,14 @@ class TovarController extends Controller
 
         public function store(Request $request)
 {
+    $user = auth()->user();
+    $userId = 0;
+    if($user->type == 'admin'){
+        $userId = $user->id;     
+    }else{
+        $userId = $user->firmaid;
+    }
+
     // Validate the request data
     $validatedData = $request->validate([
         //'barcode' => 'required|string|max:555|unique:tovar',
@@ -115,6 +153,12 @@ class TovarController extends Controller
     ]);
 
     try {
+        
+        $tovarchek = Tovar::where('barcode', $request['barcode'])->where('firmaid', $userId)->first();
+        if($tovarchek){
+            return redirect()->back()->withErrors(['error' => 'Bu shtrix kod bazaga kiritilgan']);
+        }
+        else{
         // Create a new Tovar model instance and save it to the database
         Tovar::create([
             'barcode' => $request['barcode'],
@@ -125,9 +169,11 @@ class TovarController extends Controller
             'donasoni' => $validatedData['Pachkadanechta'],
             'dolingannarx' => $validatedData['DonaOlinganNarxi'],
             'dsotilgannarx' => $validatedData['DonaSotilishNarx'],
+            'firmaid' => $userId,
         ]);
 
         return redirect()->route('admintovar')->with('success', 'Muvaffaqiyatli Saqlandi.');
+    }
     } catch (Exception $e) {
         // Handle any errors that might occur
         return redirect()->back()->withErrors(['error' => 'Xatolik']);

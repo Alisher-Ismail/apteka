@@ -27,7 +27,7 @@
         </div>
   @endif
 </div>
-<form action="{{route('register.post')}}" method="post" class="ms-auto me-auto mt-3" style="width: 500px">
+<form action="{{route('register')}}" method="post" class="ms-auto me-auto mt-3" style="width: 500px">
 @csrf  
 <div class="mb-3">
     <label for="exampleInputEmail1" class="form-label">Name</label>

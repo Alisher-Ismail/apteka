@@ -30,7 +30,7 @@
                 <div class="form-group Barcode1">
                     <label class="col-sm-2 control-label">Barcode:</label>
                     <div class="col-sm-6">
-                        <input type="text" name="barcode" id="Barcode"  value="{{$tovar->barcode}}" class="form-control Barcode" autofocus required/>
+                        <input type="text" name="barcode" id="Barcode"  value="{{$tovar->barcode}}" class="form-control Barcode" autofocus />
                     </div>
                 </div>
 

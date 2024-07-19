@@ -14,58 +14,94 @@ class KirimController extends Controller
     //
     //add Kirim
     public function kirimtugagan()
-    {
+    {   
+        $user = auth()->user();
+        $userId = 0;
+        if($user->type == 'admin'){
+            $userId = $user->id;     
+        }else{
+            $userId = $user->firmaid;
+        }
+
         $today = Carbon::today();
-        $tovars = Tovar::all();
+        $tovars = Tovar::where('firmaid', $userId)->get();
         $kirims = Kirim::where(function($query) {
             $query->where('miqdori', '=', 0)
                   ->Where('dona', '=', 0);
         })
         ->orwhere('muddati', '<', $today)
+        ->where('firmaid', $userId)
         ->get();
-        $olchams = Olchamlar::all();
+        $olchams = Olchamlar::where('firmaid', $userId)->get();
         return view('admin.kirim_tugagan', compact('kirims', 'olchams', 'tovars'));
     }
     
     public function kirimbor()
-    {
+    {   
+        $user = auth()->user();
+        $userId = 0;
+        if($user->type == 'admin'){
+            $userId = $user->id;     
+        }else{
+            $userId = $user->firmaid;
+        }
+
         $today = Carbon::today();
-        $tovars = Tovar::all();
+        $tovars = Tovar::where('firmaid', $userId)->get();
         $kirims = Kirim::where(function($query) {
             $query->where('miqdori', '>', 0)
                   ->orWhere('dona', '>', 0);
         })
         ->where('muddati', '>=', $today)
+        ->where('firmaid', $userId)
         ->get();
-        $olchams = Olchamlar::all();
+        $olchams = Olchamlar::where('firmaid', $userId)->get();
         return view('admin.kirim_bor', compact('kirims', 'olchams', 'tovars'));
     }
 
         public function kirim()
     {
+        $user = auth()->user();
+        $userId = 0;
+        if($user->type == 'admin'){
+            $userId = $user->id;     
+        }else{
+            $userId = $user->firmaid;
+        }
+
         $today = Carbon::today();
-        $tovars = Tovar::all();
+        $tovars = Tovar::where('firmaid', $userId)->get();
         $kirims = Kirim::where(function($query) {
             $query->where('miqdori', '>', 0)
                   ->orWhere('dona', '>', 0);
         })
         ->where('muddati', '>', $today)
+        ->where('firmaid', $userId)
         ->get();
-        $olchams = Olchamlar::all();
+        $olchams = Olchamlar::where('firmaid', $userId)->get();
         return view('admin.kirim', compact('kirims', 'olchams', 'tovars'));
     }
 
     public function kirimscan()
     {
+        $user = auth()->user();
+        $userId = 0;
+        if($user->type == 'admin'){
+            $userId = $user->id;     
+        }else{
+            $userId = $user->firmaid;
+        }
+
         $today = Carbon::today();
-        $tovars = Tovar::all();
+        $tovars = Tovar::where('firmaid', $userId)->get();
         $kirims = Kirim::where(function($query) {
             $query->where('miqdori', '>', 0)
                   ->orWhere('dona', '>', 0);
         })
         ->where('muddati', '>', $today)
+        ->where('firmaid', $userId)
         ->get();
-        $olchams = Olchamlar::all();
+        $olchams = Olchamlar::where('firmaid', $userId)->get();
         return view('admin.kirim_scan', compact('kirims', 'olchams', 'tovars'));
     }
 
@@ -91,7 +127,15 @@ class KirimController extends Controller
 
 
 public function store(Request $request)
-{
+{   
+    $user = auth()->user();
+        $userId = 0;
+        if($user->type == 'admin'){
+            $userId = $user->id;     
+        }else{
+            $userId = $user->firmaid;
+        }
+
     try {
         // Validate the request data
         $validatedData = $request->validate([
@@ -112,6 +156,7 @@ public function store(Request $request)
             'miqdori' => $validatedData['Nechta'],
             'dona' => $validatedData['Nechtadona'] + $donaumumiy,
             'muddati' => $validatedData['muddat'],
+            'firmaid' => $userId,
         ]);
 
         return 'Muvaffaqiyatli Saqlandi';
@@ -125,7 +170,15 @@ public function store(Request $request)
 }
 
 public function storescan(Request $request)
-{
+{   
+    $user = auth()->user();
+        $userId = 0;
+        if($user->type == 'admin'){
+            $userId = $user->id;     
+        }else{
+            $userId = $user->firmaid;
+        }
+
     try {
         // Validate the request data
         $validatedData = $request->validate([
@@ -146,6 +199,7 @@ public function storescan(Request $request)
             'miqdori' => $validatedData['Nechta'],
             'dona' => $validatedData['Nechtadona'] + $donaumumiy,
             'muddati' => $validatedData['muddat'],
+            'firmaid' => $userId,
         ]);
 
         return 'Muvaffaqiyatli saqlandi';

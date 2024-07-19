@@ -9,7 +9,16 @@ class TitleController extends Controller
     //add Title
     public function title()
     {
-        $titles = Title::all();
+        $user = auth()->user();
+        $userId = 0;
+        if($user->type == 'admin'){
+            $userId = $user->id;     
+        }else{
+            $userId = $user->firmaid;
+        }
+        
+
+        $titles = Title::where('firmaid', $userId)->get();
         return view('admin.title', compact('titles'));
     }
 
@@ -17,7 +26,16 @@ class TitleController extends Controller
     {
         // Retrieve the specific about section by its ID
         $titles = Title::findOrFail($id);
-        $title2 = Title::all();
+        $user = auth()->user();
+        $userId = 0;
+        if($user->type == 'admin'){
+            $userId = $user->id;     
+        }else{
+            $userId = $user->firmaid;
+        }
+        
+
+        $title2 = Title::where('firmaid', $userId)->get();
     
         // Pass the about section to the view
         return view('admin.titledit', compact('titles', 'title2'));
@@ -40,7 +58,7 @@ class TitleController extends Controller
         $title->save();
 
         // Redirect back with a success message
-        return redirect()->route('admintitle')->with('success', 'Muvaffaqiyatli Saqlandi.');    
+        return redirect()->route('admintitle')->with('success', 'Muvaffaqiyatli Saqlandi!');    
     }
 
     public function delete(Request $request, $id)
@@ -58,12 +76,19 @@ class TitleController extends Controller
         $title->delete();
 
         // Redirect back with a success message
-        return redirect()->route('admintitle')->with('success', 'O`chirildi.');
+        return redirect()->route('admintitle')->with('success', 'O`chirildi!');
         }
 
 
         public function store(Request $request)
         {
+            $user = auth()->user();
+            $userId = 0;
+            if($user->type == 'admin'){
+                $userId = $user->id;     
+            }else{
+                $userId = $user->firmaid;
+            }
             // Validate the request data
             $validatedData = $request->validate([
                 'title' => 'required|string|max:255'
@@ -73,9 +98,10 @@ class TitleController extends Controller
                 // Create a new Title model instance and save it to the database
                 Title::create([
                     'title' => $validatedData['title'],
+                    'firmaid' => $userId,
                 ]);
         
-                return redirect()->route('admintitle')->with('success', 'Muvaffaqiyatli Saqlandi.');
+                return redirect()->route('admintitle')->with('success', 'Muvaffaqiyatli Saqlandi!');
             } catch (\Exception $e) {
                 // Handle any errors that might occur
                 return redirect()->back()->withErrors(['error' => 'Xatolik']);

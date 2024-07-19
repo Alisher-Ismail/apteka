@@ -40,7 +40,6 @@
                 <div class="mb-3">
                     <label for="Password">Foydalanuvchi Turi</label>
                     <select class="form-control" id="type" name="type">
-                        <option value="admin">Admin</option>
                         <option value="sotuvchi">Sotuvchi</option>
                     </select>
                 </div>

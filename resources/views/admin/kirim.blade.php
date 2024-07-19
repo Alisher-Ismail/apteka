@@ -166,7 +166,9 @@
                         </select>
                     </div>
                 </div>
-
+                    <script>
+                        //$('#tovarid').select2();
+                        </script>
                 <div class="form-group display" style="display: none">
                     <label class=" control-label">Sotilish Narxi:</label>
                     <div class="col-sm-8">
@@ -287,8 +289,11 @@
     </div>
 </div>
 
-<script>
-$(document).ready(function() {
+
+<script>     
+ 
+
+ $('.select2').select2();
     $('#tovarid').on('change', function() {
         var tovarId = $(this).val();
         if (tovarId) {
@@ -314,9 +319,6 @@ $(document).ready(function() {
             $('#Ombordagi').val(0);
         }
     });
-
-    
-
     $('#Barcode').on('input', function() {
         if ($(this).val().length > 0) {
             $('.display').show();
@@ -324,7 +326,6 @@ $(document).ready(function() {
             $('.display').hide();
         }
     });
-});
-</script>
 
+</script>
 @endsection

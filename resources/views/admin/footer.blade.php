@@ -18,6 +18,8 @@
         <script src="{{asset('admin/js/datatables-simple-demo.js')}}"></script>
     </body>
     <script>
+        //select
+        //select
     $(document).ready(function() {
         // Hide the success message after 5 seconds
         setTimeout(function() {

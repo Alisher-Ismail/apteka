@@ -9,6 +9,7 @@ use App\Http\Controllers\KirimController;
 use App\Http\Controllers\ChiqimsavdoController;
 use App\Http\Controllers\TitleController;
 use App\Http\Controllers\MuddatController;
+use App\Http\Controllers\RegistrationController;
 use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,9 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/', [AuthManager::class, 'adminlogin'])->name('login');
+Route::get('/register', [RegistrationController::class, 'register'])->name('register');
+Route::post('/register', [RegistrationController::class, 'store'])->name('register.submit');
+
 Route::get('/license', [MuddatController::class, 'showForm'])->name('license');
 Route::post('/license', [MuddatController::class, 'handleForm'])->name('license.submit');
 Route::middleware('auth')->group(function () {
@@ -34,6 +38,7 @@ Route::middleware('auth')->group(function () {
     //title section
     //user section    
     Route::get('/adminhome', function () { return view('admin.blank'); })->name('adminhome'); 
+    Route::get('/adminsuperuser', [AuthManager::class, 'usersuper'])->name('adminsuperuser');
     Route::get('/adminuser', [AuthManager::class, 'user'])->name('adminuser');
     Route::post('/adduser', [AuthManager::class, 'store'])->name('user.store');
     Route::get('/user/{id}/edit', [AuthManager::class, 'edit'])->name('user.edit');
@@ -89,10 +94,19 @@ Route::middleware('auth')->group(function () {
     //savdo
         ////////////////////////////////////////////////////////////////////
         Route::get('/api/tovar-details', function(Request $request) {
+        //get only firma id
+        $user = auth()->user();
+        $userId = 0;
+        if($user->type == 'admin'){
+            $userId = $user->id;     
+        }else{
+            $userId = $user->firmaid;
+        }
+        //get only firma id
             // Find the tovar by ID
-            $tovar = App\Models\Tovar::find($request->id);
+            $tovar = App\Models\Tovar::where('firmaid', $userId)->where('id', $request->id)->first();
             // Get all Kirim entries for the given tovar_id
-            $ombor = App\Models\Kirim::where('tovar_id', $request->id)->get();
+            $ombor = App\Models\Kirim::where('firmaid', $userId)->where('tovar_id', $request->id)->get();
             // Prepare the response data
             $response = [
                 'dnarxi' => $tovar ? $tovar->dsotilgannarx : 0,
@@ -107,8 +121,17 @@ Route::middleware('auth')->group(function () {
             //tovarscan
             Route::get('/api/tovar-detailscan', function(Request $request) 
             {
+                //get only firma id
+        $user = auth()->user();
+        $userId = 0;
+        if($user->type == 'admin'){
+            $userId = $user->id;     
+        }else{
+            $userId = $user->firmaid;
+        }
+        //get only firma id
             // Find the tovar by ID
-            $tovar = App\Models\Tovar::where('barcode', $request->id)->first();
+            $tovar = App\Models\Tovar::where('firmaid', $userId)->where('barcode', $request->id)->first();
             
         
             if ($tovar) {
@@ -116,7 +139,7 @@ Route::middleware('auth')->group(function () {
                 $olchamid = $tovar->olchovid;    
                 $olcham = App\Models\Olchamlar::find($olchamid);
                 // Get all Kirim entries for the given tovar_id
-                $ombor = App\Models\Kirim::where('tovar_id', $tovarid)->where('muddati', '>', now())->get();
+                $ombor = App\Models\Kirim::where('firmaid', $userId)->where('tovar_id', $tovarid)->where('muddati', '>', now())->get();
                         // Prepare the response data
                 $response = [
                     'tovarid' => $tovar->id,
