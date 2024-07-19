@@ -5,7 +5,7 @@ use App\Models\Tovar;
 use App\Models\Olchamlar;
 use Illuminate\Http\Request;
 
-class TovarController extends Controller
+class TovarControllerRu extends Controller
 {   
     //check barcode exists
     public function checkBarcode(Request $request)
@@ -17,7 +17,7 @@ class TovarController extends Controller
     if ($count == 0) {
         return response()->json('success');
     } else {
-        return response()->json('Bu shtrix kod ba`zaga kiritilgan!');
+        return response()->json('Этот штрих-код уже был введен!');
     }
 }
 
@@ -33,7 +33,7 @@ class TovarController extends Controller
         }
         $tovars = Tovar::where('firmaid', $userId)->get();
         $olchams = Olchamlar::where('firmaid', $userId)->get();
-        return view('admin.tovar', compact('tovars', 'olchams'));
+        return view('russian.tovar', compact('tovars', 'olchams'));
     }
 
     public function edit($id)
@@ -51,7 +51,7 @@ class TovarController extends Controller
         $olchams = Olchamlar::where('firmaid', $userId)->get();
 
         // Pass the about section to the view
-        return view('admin.tovaredit', compact('tovars', 'tovar', 'olchams'));
+        return view('russian.tovaredit', compact('tovars', 'tovar', 'olchams'));
     }
     
     public function update(Request $request, $id)
@@ -100,14 +100,14 @@ class TovarController extends Controller
             $tovar->save();
     
             // Redirect back with a success message
-            return redirect()->route('admintovar')->with('success', 'Muvaffaqiyatli Saqlandi.');
+            return redirect()->route('admintovarru')->with('success', 'Сохранено успешно.');
       //  }
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             // Handle the case where the Tovar is not found
-            return redirect()->back()->withErrors(['error' => 'Tovar topilmadi']);
+            return redirect()->back()->withErrors(['error' => 'Товар не найден.']);
         } catch (\Exception $e) {
             // Handle other exceptions
-            return redirect()->back()->withErrors(['error' => 'Xatolik']);
+            return redirect()->back()->withErrors(['error' => 'Ошибка']);
         }
     }
     
@@ -119,14 +119,14 @@ class TovarController extends Controller
          // Check if the about section exists
          if (!$tovars) {
             // If the about section does not exist, return a response
-            return redirect()->back()->with('error', 'Ma\'lumot topilmadi.');
+            return redirect()->back()->with('error', 'Информация не найдена.');
         }
 
         // Save the changes to the about section
         $tovars->delete();
 
         // Redirect back with a success message
-        return redirect()->route('admintovar')->with('success', 'O`chirildi.');
+        return redirect()->route('admintovarru')->with('success', 'Удалено');
         }
 
 
@@ -156,7 +156,7 @@ class TovarController extends Controller
         
         $tovarchek = Tovar::where('barcode', $request['barcode'])->where('firmaid', $userId)->first();
         if($tovarchek){
-            return redirect()->back()->withErrors(['error' => 'Bu shtrix kod bazaga kiritilgan']);
+            return redirect()->back()->withErrors(['error' => 'Этот штрих-код уже внесен в базу данных.']);
         }
         else{
         // Create a new Tovar model instance and save it to the database
@@ -172,11 +172,11 @@ class TovarController extends Controller
             'firmaid' => $userId,
         ]);
 
-        return redirect()->route('admintovar')->with('success', 'Muvaffaqiyatli Saqlandi.');
+        return redirect()->route('admintovarru')->with('success', 'Сохранено успешно.');
     }
     } catch (Exception $e) {
         // Handle any errors that might occur
-        return redirect()->back()->withErrors(['error' => 'Xatolik']);
+        return redirect()->back()->withErrors(['error' => 'Ошибка']);
     }
 }
 

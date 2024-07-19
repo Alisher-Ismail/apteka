@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>{{ $title ? $title->title : 'Korxona Nomi' }}</title>
+    <title>{{ $title ? $title->title : 'Company Name' }}</title>
 
     <!-- Styles -->
     <link href="{{ asset('admin/css/styles.css') }}" rel="stylesheet" />
@@ -24,7 +24,7 @@
                             <div class="card shadow-lg border-0 rounded-lg mt-5">
                                 <div class="card-header">
                                     <h3 class="text-center font-weight-light my-4">
-                                        {{ $title ? $title->title : '' }} dasturiga Registratsiya Qilish
+                                        {{ $title ? $title->title : '' }} to register for the program
                                     </h3>
                                 </div>
                                 <div class="card-body">
@@ -49,10 +49,10 @@
                                     @endif
 
                                     <!-- Registration Form -->
-                                    <form method="post" action="{{ route('register.submit') }}" id="add-form" enctype="multipart/form-data">
+                                    <form method="post" action="{{ route('register.submiteng') }}" id="add-form" enctype="multipart/form-data">
                 @csrf <!-- CSRF token -->
                 <div class="mb-3">
-                    <label for="Ism">Ismi</label>
+                    <label for="Ism">Name</label>
                     <input type="text" class="form-control" id="ism" name="ism" placeholder="Ismni Kiriting" required>
                 </div>
                 <div class="mb-3">
@@ -61,15 +61,14 @@
                 </div>
                 
                 <div class="mb-3">
-                    <label for="Password">Parol</label>
+                    <label for="Password">Password</label>
                     <input type="text" class="form-control" id="parol" name="parol" placeholder="Parolni Kiriting" required>
                 </div>
 
                 <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                <button type="submit" class="btn btn-primary">Saqlash</button>
-                <a href="{{ route ('login') }}" >Loginga Qaytish</a>
-                </div>    
-           
+                <button type="submit" class="btn btn-primary">Sign Up</button>
+                <a href="{{ route ('logineng') }}" >Return to Loginga</a>
+                </div>
             </form>
                                 </div>                             
                             </div>

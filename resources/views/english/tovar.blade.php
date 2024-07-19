@@ -1,4 +1,4 @@
-@extends('admin.base')
+@extends('english.base')
 <style>
 
 .form-group {
@@ -22,7 +22,7 @@
     <div class="card mb-4">
         <div class="card-header">
             <i class="fa-solid fa-weight-scale"></i>
-            Tovarni Kiritish
+            Entering the items
         </div>
         <!-- Display success message -->
         @if (session('success'))
@@ -41,10 +41,10 @@
             </div>
         @endif
         <div class="card-body">
-        <form method="post" action="{{ route('tovar.store') }}" id="add-form" enctype="multipart/form-data">
+        <form method="post" action="{{ route('tovar.storeeng') }}" id="add-form" enctype="multipart/form-data">
             @csrf <!-- CSRF token -->
                 <div class="form-group Barcode1">
-                    <label class="col-sm-6 control-label">Barcode:</label>
+                    <label class="col-sm-8 control-label">Barcode:</label>
                     <div class="col-sm-8">
                         <input type="text" name="barcode" id="Barcode" class="form-control Barcode" autofocus />
                     </div>
@@ -52,14 +52,14 @@
             
 
                 <div class="form-group display" style="">
-                    <label class="col-sm-6 control-label">Material Nomi:</label>
+                    <label class="col-sm-6 control-label">Product Name:</label>
                     <div class="col-sm-8">
                         <input type="text" name="materialnomi" id="materialnomi" class="form-control materialnomi" required/>
                     </div>
                 </div>
 
                 <div class="form-group display" style="">
-                    <label class="col-sm-6 control-label">O`lchov Birligi:</label>
+                    <label class="col-sm-6 control-label">Unit of Measurement:</label>
                     <div class="col-sm-8">
                         <select name="olchamid" id="olchamid" class="form-control select2" required>
                             <option value="">Tanlang</option>
@@ -72,42 +72,42 @@
                 
 
                 <div class="form-group display" style="">
-                    <label class="col-sm-6 control-label">Olingan Narxi:</label>
+                    <label class="col-sm-6 control-label">Purchase price:</label>
                     <div class="col-sm-8">
                         <input type="number" name="OlinganNarxi" class="form-control" required/>
                     </div>
                 </div>
 
                 <div class="form-group display" style="">
-                    <label class="col-sm-6 control-label">Sotilish Narx:</label>
+                    <label class="col-sm-6 control-label">Selling price:</label>
                     <div class="col-sm-8">
                         <input type="number" name="SotilishNarx" class="form-control" required/>
                     </div>
                 </div>
 
                 <div class="form-group display" style="">
-                    <label class="col-sm-6 control-label">Pachkada nechta bo`ladi:</label>
+                    <label class="col-sm-6 control-label">How many are in a pack:</label>
                     <div class="col-sm-8">
                         <input type="number" name="Pachkadanechta" class="form-control" value="0" required/>
                     </div>
                 </div>
 
                 <div class="form-group display" style="">
-                    <label class="col-sm-6 control-label">Dona Olingan Narxi:</label>
+                    <label class="col-sm-6 control-label">Unit purchase price:</label>
                     <div class="col-sm-8">
                         <input type="number" name="DonaOlinganNarxi" class="form-control" value="0" required />
                     </div>
                 </div>
 
                 <div class="form-group display" style="">
-                    <label class="col-sm-6 control-label">Dona Sotilish Narx:</label>
+                    <label class="col-sm-6 control-label">Unit selling price:</label>
                     <div class="col-sm-8">
                         <input type="number" name="DonaSotilishNarx" class="form-control" value="0" required/>
                     </div>
                 </div>
 
                 <br>
-                <button type="submit" class="btn btn-primary">Saqlash</button>
+                <button type="submit" class="btn btn-primary">Save</button>
             </form>
         </div>
     </div>
@@ -119,22 +119,22 @@
     <div class="card mb-4">
         <div class="card-header">
             <i class="fa-solid fa-weight-scale"></i>
-            Tovarlar Ro`yxati
+            List of Products
         </div>
         <div class="card-body">
             <div class="table-responsive" style="margin: 2%">
                 <table id="datatablesSimple" class="table">
                     <thead>
                         <tr class="table-dark">
-                            <th>Barcode</th>
-                            <th>Tovar Nomi</th>
-                            <th>Olingan Narxi</th>
-                            <th>Sotilish Narxi</th>
-                            <th>O`lchov Birligi</th>
-                            <th>Pachkada Nechta Bo`ladi</th>
-                            <th>Dona Narxi Olingan</th>
-                            <th>Dona Narxi Sotilish</th>
-                            <th>Yangilash | O`chirish</th>
+                        <th>Barcode</th>
+                        <th>Product Name</th>
+                        <th>Purchase Price</th>
+                        <th>Selling Price</th>
+                        <th>Unit of Measurement</th>
+                        <th>Quantity per Pack</th>
+                        <th>Unit Purchase Price</th>
+                        <th>Unit Selling Price</th>
+                        <th>Update | Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -155,18 +155,18 @@
                                 <td>{{ $tovar->dolingannarx }}</td>
                                 <td>{{ $tovar->dsotilgannarx }}</td>
                                 <td>
-                                    <a href="{{ route('tovar.edit', $tovar->id) }}" class="text-success"><i class="fas fa-edit fa-lg mx-1"></i></a>
-                                    <a href="{{ route('tovar.delete', $tovar->id) }}" 
+                                    <a href="{{ route('tovar.editeng', $tovar->id) }}" class="text-success"><i class="fas fa-edit fa-lg mx-1"></i></a>
+                                    <a href="{{ route('tovar.deleteeng', $tovar->id) }}" 
                                        class="text-danger" 
                                        onclick="event.preventDefault(); 
-                                                if(confirm('O`chirmoqchimisiz?')) {
+                                                if(confirm('Do you want to delete?')) {
                                                     document.getElementById('delete-about-{{ $tovar->id }}').submit();
                                                 }">
                                         <i class="fas fa-trash fa-lg mx-1"></i>
                                     </a>
 
                                     <form id="delete-about-{{ $tovar->id }}" 
-                                          action="{{ route('tovar.delete', $tovar->id) }}" 
+                                          action="{{ route('tovar.deleteeng', $tovar->id) }}" 
                                           method="POST" 
                                           style="display: none;">
                                         @csrf

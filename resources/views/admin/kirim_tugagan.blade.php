@@ -147,7 +147,7 @@ $(document).ready(function(){
                         $('#suss_message').html("<center><h5 style='color:white'>" + response + " </h5></center>");
                         $('#suss_message').fadeIn().delay(1200).fadeOut();
                         window.setTimeout(function() {
-                            window.location.href = "{{ route('adminkirimscan') }}";
+                            window.location.href = "{{ route('adminkirimtugagan') }}";
                         }, 4000);
             //alert("Selected IDs sent to controller: " + response);
             // You can further process the response if needed

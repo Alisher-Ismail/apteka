@@ -1,4 +1,4 @@
-@extends('admin.base')
+@extends('russian.base')
 <style>
 
 .form-group {
@@ -22,7 +22,7 @@
     <div class="card mb-4">
         <div class="card-header">
             <i class="fa-solid fa-weight-scale"></i>
-            Tovarni Kiritish
+            Добавление товара
         </div>
         <!-- Display success message -->
         @if (session('success'))
@@ -41,73 +41,75 @@
             </div>
         @endif
         <div class="card-body">
-        <form method="post" action="{{ route('tovar.store') }}" id="add-form" enctype="multipart/form-data">
+        <form method="post" action="{{ route('tovar.updateru', $tovar->id) }}" id="add-form" enctype="multipart/form-data">
             @csrf <!-- CSRF token -->
                 <div class="form-group Barcode1">
-                    <label class="col-sm-6 control-label">Barcode:</label>
+                    <label class="col-sm-6 control-label">Штрих-код:</label>
                     <div class="col-sm-8">
-                        <input type="text" name="barcode" id="Barcode" class="form-control Barcode" autofocus />
-                    </div>
-                </div>
-            
-
-                <div class="form-group display" style="">
-                    <label class="col-sm-6 control-label">Material Nomi:</label>
-                    <div class="col-sm-8">
-                        <input type="text" name="materialnomi" id="materialnomi" class="form-control materialnomi" required/>
+                        <input type="text" name="barcode" id="Barcode"  value="{{$tovar->barcode}}" class="form-control Barcode" autofocus />
                     </div>
                 </div>
 
-                <div class="form-group display" style="">
-                    <label class="col-sm-6 control-label">O`lchov Birligi:</label>
+                <div class="form-group display" >
+                    <label class="col-sm-6 control-label">Наименование материала:</label>
+                    <div class="col-sm-8">
+                        <input type="text" name="materialnomi" id="materialnomi" value="{{$tovar->nomi}}" class="form-control materialnomi" />
+                    </div>
+                </div>
+
+                <div class="form-group display" >
+                    <label class="col-sm-6 control-label">Единица измерения:</label>
                     <div class="col-sm-8">
                         <select name="olchamid" id="olchamid" class="form-control select2" required>
-                            <option value="">Tanlang</option>
-                            @foreach ($olchams as $olcham)
+                        @foreach ($olchams as $olcham)
+                            @if($tovar->olchovid == $olcham->id)
+                                <option value="{{ $olcham->id }}" selected>{{ $olcham->olcham_nomi }} (Hozirgi)</option>
+                            @else
                                 <option value="{{ $olcham->id }}">{{ $olcham->olcham_nomi }}</option>
-                            @endforeach
+                            @endif
+                        @endforeach
                         </select>
                     </div>
                 </div>
                 
 
-                <div class="form-group display" style="">
-                    <label class="col-sm-6 control-label">Olingan Narxi:</label>
+                <div class="form-group display" >
+                    <label class="col-sm-6 control-label">Цена покупки:</label>
                     <div class="col-sm-8">
-                        <input type="number" name="OlinganNarxi" class="form-control" required/>
+                        <input type="number" name="OlinganNarxi" value="{{$tovar->olingannarx}}" class="form-control" />
                     </div>
                 </div>
 
-                <div class="form-group display" style="">
-                    <label class="col-sm-6 control-label">Sotilish Narx:</label>
+                <div class="form-group display" >
+                    <label class="col-sm-6 control-label">Цена продажи:</label>
                     <div class="col-sm-8">
-                        <input type="number" name="SotilishNarx" class="form-control" required/>
+                        <input type="number" name="SotilishNarx" value="{{$tovar->sotilgannarx}}" class="form-control" />
                     </div>
                 </div>
 
-                <div class="form-group display" style="">
-                    <label class="col-sm-6 control-label">Pachkada nechta bo`ladi:</label>
+                <div class="form-group display" >
+                    <label class="col-sm-6 control-label">Сколько в упаковке:</label>
                     <div class="col-sm-8">
-                        <input type="number" name="Pachkadanechta" class="form-control" value="0" required/>
+                        <input type="number" name="Pachkadanechta" value="{{$tovar->donasoni}}" class="form-control" />
                     </div>
                 </div>
 
-                <div class="form-group display" style="">
-                    <label class="col-sm-6 control-label">Dona Olingan Narxi:</label>
+                <div class="form-group display" >
+                    <label class="col-sm-6 control-label">Цена за единицу при покупке:</label>
                     <div class="col-sm-8">
-                        <input type="number" name="DonaOlinganNarxi" class="form-control" value="0" required />
+                        <input type="number" name="DonaOlinganNarxi" value="{{$tovar->dolingannarx}}" class="form-control" />
                     </div>
                 </div>
 
-                <div class="form-group display" style="">
-                    <label class="col-sm-6 control-label">Dona Sotilish Narx:</label>
+                <div class="form-group display" >
+                    <label class="col-sm-6 control-label">Цена за единицу при продаже:</label>
                     <div class="col-sm-8">
-                        <input type="number" name="DonaSotilishNarx" class="form-control" value="0" required/>
+                        <input type="number" name="DonaSotilishNarx" value="{{$tovar->dsotilgannarx}}" class="form-control" />
                     </div>
                 </div>
 
                 <br>
-                <button type="submit" class="btn btn-primary">Saqlash</button>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
             </form>
         </div>
     </div>
@@ -119,22 +121,22 @@
     <div class="card mb-4">
         <div class="card-header">
             <i class="fa-solid fa-weight-scale"></i>
-            Tovarlar Ro`yxati
+            Список товаров
         </div>
         <div class="card-body">
             <div class="table-responsive" style="margin: 2%">
                 <table id="datatablesSimple" class="table">
                     <thead>
                         <tr class="table-dark">
-                            <th>Barcode</th>
-                            <th>Tovar Nomi</th>
-                            <th>Olingan Narxi</th>
-                            <th>Sotilish Narxi</th>
-                            <th>O`lchov Birligi</th>
-                            <th>Pachkada Nechta Bo`ladi</th>
-                            <th>Dona Narxi Olingan</th>
-                            <th>Dona Narxi Sotilish</th>
-                            <th>Yangilash | O`chirish</th>
+                        <th>Штрих-код</th>
+                        <th>Наименование товара</th>
+                        <th>Цена закупки</th>
+                        <th>Цена продажи</th>
+                        <th>Единица измерения</th>
+                        <th>Количество в упаковке</th>
+                        <th>Цена за единицу при покупке</th>
+                        <th>Цена за единицу при продаже</th>
+                        <th>Обновить | Удалить</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -155,18 +157,18 @@
                                 <td>{{ $tovar->dolingannarx }}</td>
                                 <td>{{ $tovar->dsotilgannarx }}</td>
                                 <td>
-                                    <a href="{{ route('tovar.edit', $tovar->id) }}" class="text-success"><i class="fas fa-edit fa-lg mx-1"></i></a>
-                                    <a href="{{ route('tovar.delete', $tovar->id) }}" 
+                                    <a href="{{ route('tovar.editru', $tovar->id) }}" class="text-success"><i class="fas fa-edit fa-lg mx-1"></i></a>
+                                    <a href="{{ route('tovar.deleteru', $tovar->id) }}" 
                                        class="text-danger" 
                                        onclick="event.preventDefault(); 
-                                                if(confirm('O`chirmoqchimisiz?')) {
+                                                if(confirm('Вы уверены?')) {
                                                     document.getElementById('delete-about-{{ $tovar->id }}').submit();
                                                 }">
                                         <i class="fas fa-trash fa-lg mx-1"></i>
                                     </a>
 
                                     <form id="delete-about-{{ $tovar->id }}" 
-                                          action="{{ route('tovar.delete', $tovar->id) }}" 
+                                          action="{{ route('tovar.deleteru', $tovar->id) }}" 
                                           method="POST" 
                                           style="display: none;">
                                         @csrf
@@ -181,18 +183,4 @@
         </div>
     </div>
 </div>
-
-<script>
-$(document).ready(function() {
-    $('#Barcode').on('input', function() {
-        if ($(this).val().length > 0) {
-            $('.display').show();
-        } else {
-            $('.display').hide();
-        }
-    });
-
-});
-</script>
-
 @endsection

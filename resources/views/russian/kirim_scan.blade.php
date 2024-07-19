@@ -1,4 +1,4 @@
-@extends('admin.base')
+@extends('russian.base')
 <style>
 
 .form-group {
@@ -33,7 +33,7 @@
             $("#submit").prop("disabled", true);
             $.ajax({
                 type: "post",
-                url: "{{ route('kirim.storescan') }}",
+                url: "{{ route('kirim.storescanru') }}",
                 cache: false,
                 data: $('#material').serialize(),
                 success: function(response) {
@@ -42,7 +42,7 @@
                         $('#suss_message2').html("<center><h5 style='color:white'>" + response + " </h5></center>");
                         $('#suss_message2').fadeIn().delay(1200).fadeOut();
                         window.setTimeout(function() {
-                            window.location.href = "{{ route('adminkirimscan') }}";
+                            window.location.href = "{{ route('adminkirimscanru') }}";
                         }, 4000);
                     } catch (e) {
                         alert('Exception while request1: ' + e);
@@ -81,7 +81,7 @@
             var add = olchamid.value.length;
             if (add == 0)
             {
-                $('#suss_message').html("<center><h5 style='color:#ffffff;'>Kiriting!</h5></center>");
+                $('#suss_message').html("<center><h5 style='color:#ffffff;'>Введите!</h5></center>");
                 $('#suss_message').fadeIn().delay(1200).fadeOut();
                 //alert('First name must have alphabet characters only');
                 olchamid.focus();
@@ -97,7 +97,7 @@
             var add = materialnomi.value.length;
             if (add == 0)
             {
-                $('#suss_message').html("<center><h5 style='color:#ffffff;'>Kiriting!</h5></center>");
+                $('#suss_message').html("<center><h5 style='color:#ffffff;'>Введите!</h5></center>");
                 $('#suss_message').fadeIn().delay(1200).fadeOut();
                 //alert('First name must have alphabet characters only');
                 materialnomi.focus();
@@ -113,7 +113,7 @@
             var add = OlinganNarxi.value.length;
             if (add == 0)
             {
-                $('#suss_message').html("<center><h5 style='color:#ffffff;'>Kiriting!</h5></center>");
+                $('#suss_message').html("<center><h5 style='color:#ffffff;'>Введите!</h5></center>");
                 $('#suss_message').fadeIn().delay(1200).fadeOut();
                 //alert('First name must have alphabet characters only');
                 OlinganNarxi.focus();
@@ -146,14 +146,14 @@ $(document).ready(function(){
 
     if (selectedIds.length === 0) {
         // Show message if no items are selected
-        $('#suss_message').html("<center><h5 style='color:white'>Tanlang!</h5></center>");
+        $('#suss_message').html("<center><h5 style='color:white'>Выберите!</h5></center>");
         $('#suss_message').fadeIn().delay(1200).fadeOut();
     } else {
     //alert(selectedIds);
     // Send AJAX request to delete selected items
     $.ajax({
         type: 'POST',
-        url: "{{ route('delete.kirim') }}", // Adjust the route to match your controller method
+        url: "{{ route('delete.kirimru') }}", // Adjust the route to match your controller method
         data: {selectedIds: selectedIds},
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -163,7 +163,7 @@ $(document).ready(function(){
                         $('#suss_message').html("<center><h5 style='color:white'>" + response + " </h5></center>");
                         $('#suss_message').fadeIn().delay(1200).fadeOut();
                         window.setTimeout(function() {
-                            window.location.href = "{{ route('adminkirimscan') }}";
+                            window.location.href = "{{ route('adminkirimscanru') }}";
                         }, 4000);
             //alert("Selected IDs sent to controller: " + response);
             // You can further process the response if needed
@@ -184,7 +184,7 @@ $(document).ready(function(){
     <div class="card mb-4">
             <div class="card-header">
                 <i class="fa-solid fa-weight-scale"></i>
-                Omborga Kiritish
+                Поступление на склад
             </div>
             <div id="suss_message" class="ajax_warning" style="display: none"></div>
             <div id="suss_message2" class="ajax_Message" style="display: none"></div>
@@ -205,67 +205,67 @@ $(document).ready(function(){
             @endif
 
             <div class="card-body">
-                <form class="form-horizontal" action="{{ route('kirim.storescan') }} " name="material" id="material" method="post">
+                <form class="form-horizontal" action="{{ route('kirim.storescanru') }} " name="material" id="material" method="post">
                     @csrf <!-- CSRF token -->
 
                     <div class="form-group Barcode1">
-                        <label class="control-label">Barcode:</label>
+                        <label class="control-label">Штрих-код:</label>
                         <div class="col-sm-8">
                             <input type="text" name="barcode" id="Barcode" class="form-control Barcode" autofocus required/>
                         </div>
                     </div>
 
                     <div class="form-group display" style="display: none">
-                        <label class="control-label">Tovar Nomi:</label>
+                        <label class="control-label">Наименование товара:</label>
                         <div class="col-sm-8">
                             <input type="text" name="tnomi" id="tnomi" disabled class="form-control" />
                         </div>
                     </div>
 
                     <div class="form-group display" style="display: none">
-                        <label class=" control-label">Sotilish Narxi:</label>
+                        <label class=" control-label">Цена продажи:</label>
                         <div class="col-sm-8">
                             <input type="number" name="snarxi" id="snarxi" disabled class="form-control" />
                         </div>
                     </div>
 
                     <div class="form-group display2" style="display: none">
-                        <label class=" control-label">Sotilish (Dona) Narxi:</label>
+                        <label class=" control-label">Цена продажи (за единицу):</label>
                         <div class="col-sm-8">
                             <input type="number" name="dnarxi" id="dnarxi" disabled class="form-control" value="0" />
                         </div>
                     </div>
 
                     <div class="form-group display" style="display: none">
-                        <label class=" control-label">Nechta (Tovar) Keldi:</label>
+                        <label class=" control-label">Сколько товаров пришло:</label>
                         <div class="col-sm-8">
                             <input type="number" name="Nechta" id="Nechta" class="form-control" value="0" required />
                         </div>
                     </div>
 
                     <div class="form-group display2" style="display: none">
-                        <label class=" control-label">Nechta (Tovar Dona) Keldi:</label>
+                        <label class=" control-label">Сколько товаров (единиц):</label>
                         <div class="col-sm-8">
                             <input type="number" name="Nechtadona" class="form-control" value="0" required />
                         </div>
                     </div>
 
                     <div class="form-group display" style="display: none">
-                        <label class=" control-label">Ombordagi miqdori:</label>
+                        <label class=" control-label">Количество на складе:</label>
                         <div class="col-sm-8">
                             <input type="number" name="Ombordagi" disabled id="Ombordagi" class="form-control" />
                         </div>
                     </div>
 
                     <div class="form-group display" style="display: none">
-                        <label class=" control-label">Muddati:</label>
+                        <label class=" control-label">Срок:</label>
                         <div class="col-sm-8">
                             <input type="date" name="muddat" id="muddat" class="form-control" required />
                         </div>
                     </div>
                     <input type="hidden" name="tovarid"  id="tovarid" />
                     <br>
-                    <button type="button" id="submit" class="btn btn-primary" onclick="material_db()">Saqlash</button>
+                    <button type="button" id="submit" class="btn btn-primary" onclick="material_db()">Сохранить</button>
                 </form>
             </div>
         </div>
@@ -280,10 +280,10 @@ $(document).ready(function(){
         <div class="card mb-4">
             <div class="card-header">
                 <i class="fa-solid fa-weight-scale"></i>
-                Tovarlar Ro`yxati
+                Список товаров
 
-                <button style="float:right" class="btn btn-success" onclick="exportToCSV()">Excel Yuklab Olish</button>
-                <button style="float: right; margin-right: 1%" type="button" id="submit" class="btn btn-danger" onclick="deleteSelectedItems()">O`chirish</button>
+                <button style="float:right" class="btn btn-success" onclick="exportToCSV()">Загрузить в Excel</button>
+                <button style="float: right; margin-right: 1%" type="button" id="submit" class="btn btn-danger" onclick="deleteSelectedItems()">Удалить</button>
 
             </div>
             <div class="card-body">
@@ -293,7 +293,7 @@ $(document).ready(function(){
 
                 <div class="search-container">
     <div>
-        <label for="perPage">Bir sahifada nechta ko'rsatilsin:</label>
+        <label for="perPage">Сколько показывать на одной странице:</label>
         <select id="perPage" onchange="changePerPage()">
             <option value="5">5</option>
             <option value="10" selected>10</option>
@@ -304,7 +304,7 @@ $(document).ready(function(){
         </select>
     </div>
     <div>
-        <input type="text" id="searchInput"  onkeyup="searchTable()" placeholder="Qidiruv...">
+        <input type="text" id="searchInput"  onkeyup="searchTable()" placeholder="Поиск...">
     </div>
 </div>
 <form action="" name="shartnoma" id="shartnoma" method="post">
@@ -314,12 +314,12 @@ $(document).ready(function(){
     <thead>
         <tr>
             <th style="width: 5%"><input type="checkbox" id="selecctall" /></th>
-            <th>Barcode</th>
-            <th>Tovar Nomi</th>
-            <th>Miqdori</th>
-            <th>Miqdori (Dona)</th>
-            <th>Muddati</th>
-            <th>Kiritilgan Sana</th>
+            <th>Штрих-код</th>
+            <th>Наименование товара</th>
+            <th>Количество</th>
+            <th>Количество (ед.)</th>
+            <th>Срок годности</th>
+            <th>Дата поступления</th>
         </tr>
     </thead>
     <tbody>
@@ -384,7 +384,7 @@ $(document).ready(function(){
                         $('#snarxi').val(data.snarxi);
                         $('#Ombordagi').val(data.ombor);
                     } else {
-                        alert('Bu barcode oid tovar mavjud emas');
+                        alert('По данному штрих-коду товар отсутствует.');
                         $('#snarxi').val(0);
                         $('#Ombordagi').val(0);
                     }

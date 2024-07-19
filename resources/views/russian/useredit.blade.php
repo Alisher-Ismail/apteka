@@ -1,11 +1,11 @@
-@extends('admin.base')
+@extends('russian.base')
 @section('content')
 <br/>
 <div class="container-fluid px-4">
     <div class="card mb-4">
         <div class="card-header">
             <i class="fas fa-user me-1"></i>
-            Foydalanuvchi Kiritish
+            Добавление пользователя
         </div>
         <!-- Display success message -->
         @if (session('success'))
@@ -25,29 +25,29 @@
         @endif
 
         <div class="card-body">
-            <form method="post" action="{{ route('user.update', $users->id) }}" id="add-form" enctype="multipart/form-data">
+            <form method="post" action="{{ route('user.updateru', $users->id) }}" id="add-form" enctype="multipart/form-data">
                 @csrf <!-- CSRF token -->
                 <div class="mb-3">
-                    <label for="Ism">Ismi</label>
-                    <input type="text" class="form-control" id="ism" name="ism" placeholder="Ismni Kiriting" value="{{ old('ism', $users->name ?? '') }}" required>
+                    <label for="Ism">Имя</label>
+                    <input type="text" class="form-control" id="ism" name="ism" placeholder="Введите имя" value="{{ old('ism', $users->name ?? '') }}" required>
                 </div>
                 <div class="mb-3">
-                    <label for="Email">Email</label>
-                    <input type="text" class="form-control" id="email" name="email" placeholder="Emailni Kiriting" value="{{ old('email', $users->email ?? '') }}" required>
+                    <label for="Email">Электронная почта</label>
+                    <input type="text" class="form-control" id="email" name="email" placeholder="Введите электронную почту" value="{{ old('email', $users->email ?? '') }}" required>
                 </div>
                 <div class="mb-3">
-                    <label for="Password">Foydalanuvchi Turi</label>
+                    <label for="Password">Тип пользователя</label>
                     <select class="form-control" id="type" name="type">
-                    <option value="admin">Admin</option>
-                        <option value="sotuvchi">Sotuvchi</option>
+                        <option value="admin">Aдмин</option>
+                        <option value="sotuvchi">Продавец</option>
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label for="Password">Parol</label>
-                    <input type="password" class="form-control" id="parol" name="parol" placeholder="Parolni Kiriting" required>
+                    <label for="Password">Пароль</label>
+                    <input type="password" class="form-control" id="parol" name="parol" placeholder="Введите пароль" required>
                 </div>
                 
-                <button type="submit" class="btn btn-primary">Saqlash</button>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
             </form>
         </div>
     </div>
@@ -57,16 +57,16 @@
     <div class="card mb-4">
         <div class="card-header">
             <i class="fas fa-users me-1"></i>
-            Foydalanuvchilar Ro`yxati
+            Список пользователей
         </div>
         <div class="card-body">
             <div class="table-responsive" style="margin: 2%">
                 <table id="datatablesSimple" class="table">
                     <thead>
                         <tr class="table-dark">
-                            <th>Ism</th>
-                            <th>Email</th>
-                            <th>Yangilash | O`chirish</th>
+                        <th>Имя</th>
+                        <th>Email</th>
+                        <th>Обновить | Удалить</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -75,17 +75,17 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>
-                                <a href="{{ route('user.edit', $user->id) }}" class="text-success"><i class="fas fa-edit fa-lg mx-1"></i></a>
-                                <a href="{{ route('user.delete', $user->id) }}" 
+                                <a href="{{ route('user.editru', $user->id) }}" class="text-success"><i class="fas fa-edit fa-lg mx-1"></i></a>
+                                <a href="{{ route('user.deleteru', $user->id) }}" 
                                     class="text-danger" 
                                     onclick="event.preventDefault(); 
-                                    if(confirm('Foydalanuvchini o`chirmoqchimisiz?')) {
+                                    if(confirm('Вы уверены, что хотите удалить пользователя?')) {
                                         document.getElementById('delete-user-{{ $user->id }}').submit();
                                     }">
                                     <i class="fas fa-trash fa-lg mx-1"></i>
                                 </a>
                                 <form id="delete-user-{{ $user->id }}" 
-                                      action="{{ route('user.delete', $user->id) }}" 
+                                      action="{{ route('user.deleteru', $user->id) }}" 
                                       method="POST" 
                                       style="display: none;">
                                     @csrf

@@ -1,4 +1,4 @@
-@extends('admin.base')
+@extends('english.base')
 <style>
 
 .form-group {
@@ -32,7 +32,7 @@
             $("#submit").prop("disabled", true);
             $.ajax({
                 type: "post",
-                url: "{{ route('kirim.store') }}",
+                url: "{{ route('kirim.storeeng') }}",
                 cache: false,
                 data: $('#material').serialize(),
                 success: function(response) {
@@ -41,7 +41,7 @@
                         $('#suss_message2').html("<center><h5 style='color:white'>" + response + " </h5></center>");
                         $('#suss_message2').fadeIn().delay(1200).fadeOut();
                         window.setTimeout(function() {
-                            window.location.href = "{{ route('adminkirim') }}";
+                            window.location.href = "{{ route('adminkirimeng') }}";
                         }, 4000);
                     } catch (e) {
                         alert('Exception while request1: ' + e);
@@ -80,7 +80,7 @@
             var add = olchamid.value.length;
             if (add == 0)
             {
-                $('#suss_message').html("<center><h5 style='color:#ffffff;'>Kiriting!</h5></center>");
+                $('#suss_message').html("<center><h5 style='color:#ffffff;'>Enter!</h5></center>");
                 $('#suss_message').fadeIn().delay(1200).fadeOut();
                 //alert('First name must have alphabet characters only');
                 olchamid.focus();
@@ -96,7 +96,7 @@
             var add = materialnomi.value.length;
             if (add == 0)
             {
-                $('#suss_message').html("<center><h5 style='color:#ffffff;'>Kiriting!</h5></center>");
+                $('#suss_message').html("<center><h5 style='color:#ffffff;'>Enter!</h5></center>");
                 $('#suss_message').fadeIn().delay(1200).fadeOut();
                 //alert('First name must have alphabet characters only');
                 materialnomi.focus();
@@ -112,7 +112,7 @@
             var add = OlinganNarxi.value.length;
             if (add == 0)
             {
-                $('#suss_message').html("<center><h5 style='color:#ffffff;'>Kiriting!</h5></center>");
+                $('#suss_message').html("<center><h5 style='color:#ffffff;'>Enter!</h5></center>");
                 $('#suss_message').fadeIn().delay(1200).fadeOut();
                 //alert('First name must have alphabet characters only');
                 OlinganNarxi.focus();
@@ -130,7 +130,7 @@
     <div class="card mb-4">
         <div class="card-header">
             <i class="fa-solid fa-weight-scale"></i>
-            Tovarni Kiritish
+            Add Product
         </div>
         <div id="suss_message" class="ajax_warning" style="display: none"></div>
             <div id="suss_message2" class="ajax_Message" style="display: none"></div>
@@ -152,16 +152,16 @@
         @endif
 
         <div class="card-body">
-        <form class="form-horizontal" action="{{ route('kirim.storescan') }} " name="material" id="material" method="post">
+        <form class="form-horizontal" action="{{ route('kirim.storescaneng') }} " name="material" id="material" method="post">
             @csrf <!-- CSRF token -->
 
             <div class="form-group display" >
-                    <label class=" control-label">Tovarni Tanlang:</label>
+                    <label class=" control-label">Select Product:</label>
                     <div class="col-sm-8">
                         <select name="tovarid" id="tovarid" class="form-control select2" required>
-                            <option value="">Tanang</option>
+                            <option value="">Select</option>
                             @foreach ($tovars as $tovar)
-                                <option value="{{ $tovar->id }}">{{ $tovar->nomi }}(Narxi: {{$tovar->sotilgannarx}})</option>
+                                <option value="{{ $tovar->id }}">{{ $tovar->nomi }}(Price: {{$tovar->sotilgannarx}})</option>
                             @endforeach
                         </select>
                     </div>
@@ -170,42 +170,42 @@
                         //$('#tovarid').select2();
                         </script>
                 <div class="form-group display" style="display: none">
-                    <label class=" control-label">Sotilish Narxi:</label>
+                    <label class=" control-label">Selling Price:</label>
                     <div class="col-sm-8">
                         <input type="number" name="snarxi" id="snarxi" disabled class="form-control" />
                     </div>
                 </div>
 
                 <div class="form-group display2" style="display: none">
-                    <label class=" control-label">Sotilish (Dona) Narxi:</label>
+                    <label class=" control-label">Selling Price (Per Piece):</label>
                     <div class="col-sm-8">
                         <input type="number" name="dnarxi" id="dnarxi" disabled class="form-control" />
                     </div>
                 </div>
                 
                 <div class="form-group display" style="display: none">
-                    <label class=" control-label">Nechta (Tovar) Keldi:</label>
+                    <label class=" control-label">How many (products) arrived:</label>
                     <div class="col-sm-8">
                         <input type="number" name="Nechta" id="Nechta" class="form-control" value="0"/>
                     </div>
                 </div>
 
                 <div class="form-group display2" style="display: none">
-                    <label class=" control-label">Nechta (Tovar Dona) Keldi:</label>
+                    <label class=" control-label">How many (product pieces) arrived:</label>
                     <div class="col-sm-8">
                     <input type="number" name="Nechtadona" class="form-control" value="0" />
                     </div>
                 </div>
 
                 <div class="form-group display" style="display: none">
-                    <label class=" control-label">Ombordagi miqdori:</label>
+                    <label class=" control-label">Quantity in Stock:</label>
                     <div class="col-sm-8">
                         <input type="number" name="Ombordagi" disabled id="Ombordagi" class="form-control" />
                     </div>
                 </div>
 
                 <div class="form-group display" style="display: none">
-                    <label class=" control-label">Muddati:</label>
+                    <label class=" control-label">Expiry Date:</label>
                     <div class="col-sm-8">
                         <input type="date" name="muddat" id="muddat" class="form-control" />
                     </div>
@@ -214,7 +214,7 @@
                 
                 <br> 
                 <!--<button type="submit" class="btn btn-primary">Saqlash</button>-->
-                <button type="button" id="submit" class="btn btn-primary" onclick="material_db()">Saqlash</button>
+                <button type="button" id="submit" class="btn btn-primary" onclick="material_db()">Save</button>
 
             </form>
         </div>
@@ -227,20 +227,20 @@
     <div class="card mb-4">
         <div class="card-header">
             <i class="fa-solid fa-weight-scale"></i>
-            Tovarlar Ro`yxati
+            Product List
         </div>
         <div class="card-body">
             <div class="table-responsive" style="margin: 2%">
                 <table id="datatablesSimple" class="table">
                     <thead>
                         <tr class="table-dark">
-                            <th>Barcode</th>
-                            <th>Tovar Nomi</th>
-                            <th>O`lchov Birligi</th>
-                            <th>Miqdori</th>
-                            <th>Muddati</th>
-                            <th>Kiritilgan Sana</th>
-                            <th>O`chirish</th>
+                        <th>Barcode</th>
+                        <th>Product Name</th>
+                        <th>Unit of Measure</th>
+                        <th>Quantity</th>
+                        <th>Expiry Date</th>
+                        <th>Entry Date</th>
+                        <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -261,17 +261,17 @@
                                 <td>{{ date('d/m/Y', strtotime($kirim->muddati)) }}</td>
                                 <td>{{ $kirim->created_at->format('d/m/Y')}}</td>
                                 <td>
-                                    <a href="{{ route('kirim.delete', $kirim->id) }}" 
+                                    <a href="{{ route('kirim.deleteeng', $kirim->id) }}" 
                                        class="text-danger" 
                                        onclick="event.preventDefault(); 
-                                                if(confirm('O`chirmoqchimisiz?')) {
+                                                if(confirm('Are you sure you want to delete?')) {
                                                     document.getElementById('delete-about-{{ $kirim->id }}').submit();
                                                 }">
                                         <i class="fas fa-trash fa-lg mx-1"></i>
                                     </a>
 
                                     <form id="delete-about-{{ $kirim->id }}" 
-                                          action="{{ route('kirim.delete', $kirim->id) }}" 
+                                          action="{{ route('kirim.deleteeng', $kirim->id) }}" 
                                           method="POST" 
                                           style="display: none;">
                                         @csrf

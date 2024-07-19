@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthManager;
 use App\Http\Controllers\OlchamlarController;
@@ -11,6 +10,25 @@ use App\Http\Controllers\TitleController;
 use App\Http\Controllers\MuddatController;
 use App\Http\Controllers\RegistrationController;
 use Illuminate\Http\Request;
+
+use App\Http\Controllers\AuthManagerEng;
+use App\Http\Controllers\OlchamlarControllerEng;
+use App\Http\Controllers\TovarControllerEng;
+use App\Http\Controllers\KirimControllerEng;
+use App\Http\Controllers\ChiqimsavdoControllerEng;
+use App\Http\Controllers\TitleControllerEng;
+use App\Http\Controllers\MuddatControllerEng;
+use App\Http\Controllers\RegistrationControllerEng;
+
+use App\Http\Controllers\AuthManagerRu;
+use App\Http\Controllers\OlchamlarControllerRu;
+use App\Http\Controllers\TovarControllerRu;
+use App\Http\Controllers\KirimControllerRu;
+use App\Http\Controllers\ChiqimsavdoControllerRu;
+use App\Http\Controllers\TitleControllerRu;
+use App\Http\Controllers\MuddatControllerRu;
+use App\Http\Controllers\RegistrationControllerRu;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,7 +39,154 @@ use Illuminate\Http\Request;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+///////////////////////////////////////////////////////////////////////////////////////////
+//russian
+Route::get('/ru', [AuthManagerRU::class, 'adminlogin'])->name('loginru');
+Route::get('/registerru', [RegistrationControllerRU::class, 'register'])->name('registerru');
+Route::post('/registerru', [RegistrationControllerRU::class, 'store'])->name('register.submitru');
 
+Route::get('/licenseru', [MuddatControllerRU::class, 'showForm'])->name('licenseru');
+Route::post('/licenseru', [MuddatControllerRU::class, 'handleForm'])->name('license.submitru');
+Route::middleware('auth')->group(function () {
+    //title section    
+    Route::get('/admintitleru', [TitleControllerRU::class, 'title'])->name('admintitleru');
+    Route::post('/addtitleru', [TitleControllerRU::class, 'store'])->name('title.storeru');
+    Route::get('/title/{id}/editru', [TitleControllerRU::class, 'edit'])->name('title.editru');
+    Route::post('/title/{id}/updateru', [TitleControllerRU::class, 'update'])->name('title.updateru');
+    Route::delete('/title/{id}/deleteru', [TitleControllerRU::class, 'delete'])->name('title.deleteru');
+    //title section
+    //user section    
+    Route::get('/adminhomeru', function () { return view('russian.blank'); })->name('adminhomeru'); 
+    Route::get('/adminsuperuserru', [AuthManagerRU::class, 'usersuper'])->name('adminsuperuserru');
+    Route::get('/adminuserru', [AuthManagerRU::class, 'user'])->name('adminuserru');
+    Route::post('/adduserru', [AuthManagerRU::class, 'store'])->name('user.storeru');
+    Route::get('/user/{id}/editru', [AuthManagerRU::class, 'edit'])->name('user.editru');
+    Route::post('/user/{id}/updateru', [AuthManagerRU::class, 'update'])->name('user.updateru');
+    Route::delete('/user/{id}/deleteru', [AuthManagerRU::class, 'delete'])->name('user.deleteru');
+    //usr section
+    //olcham section
+    Route::get('/adminolchamru', [OlchamlarControllerRU::class, 'olcham'])->name('adminolchamru');
+    Route::post('/addolchamru', [OlchamlarControllerRU::class, 'store'])->name('olcham.storeru');
+    Route::get('/olcham/{id}/editru', [OlchamlarControllerRU::class, 'edit'])->name('olcham.editru');
+    Route::post('/olcham/{id}/updateru', [OlchamlarControllerRU::class, 'update'])->name('olcham.updateru');
+    Route::delete('/olcham/{id}/deleteru', [OlchamlarControllerRU::class, 'delete'])->name('olcham.deleteru');
+    //olcham section
+    //tovar section
+    Route::get('/admintovarru', [TovarControllerRU::class, 'tovar'])->name('admintovarru');
+    Route::post('/addtovarru', [TovarControllerRU::class, 'store'])->name('tovar.storeru');
+    Route::get('/tovar/{id}/editru', [TovarControllerRU::class, 'edit'])->name('tovar.editru');
+    Route::post('/tovar/{id}/updateru', [TovarControllerRU::class, 'update'])->name('tovar.updateru');
+    Route::delete('/tovar/{id}/deleteru', [TovarControllerRU::class, 'delete'])->name('tovar.deleteru');
+    Route::post('/check-barcoderu', [TovarControllerRU::class, 'checkBarcode'])->name('ajax.barcoderu');
+    //tovar section
+    
+    //kirim section
+    Route::get('/adminkirimscanru', [KirimControllerRU::class, 'kirimscan'])->name('adminkirimscanru');
+    Route::get('/adminkirimborru', [KirimControllerRU::class, 'kirimbor'])->name('adminkirimborru');
+    Route::get('/adminkirimtugaganru', [KirimControllerRU::class, 'kirimtugagan'])->name('adminkirimtugaganru');
+    Route::get('/adminkirimru', [KirimControllerRU::class, 'kirim'])->name('adminkirimru');
+    Route::post('/addkirimru', [KirimControllerRU::class, 'store'])->name('kirim.storeru');
+    Route::post('/addkirimscanru', [KirimControllerRU::class, 'storescan'])->name('kirim.storescanru');
+    Route::delete('/kirim/{id}/deleteru', [KirimControllerRU::class, 'delete'])->name('kirim.deleteru');
+
+    Route::post('/delete-kirimru', [KirimControllerRU::class, 'deletescan'])->name('delete.kirimru');
+    //kirim section
+    //chiqim
+    Route::get('/adminchiqimru', [ChiqimsavdoControllerRU::class, 'chiqim'])->name('adminchiqimru');
+    Route::get('/adminchiqimbugunru', [ChiqimsavdoControllerRU::class, 'chiqimbugun'])->name('adminchiqimbugunru');
+    Route::get('/chiqimqaytar/{id}/editru', [ChiqimsavdoControllerRU::class, 'qaytar'])->name('qaytar.editru');
+    Route::get('/adminchiqimbugunsonru', [ChiqimsavdoControllerRU::class, 'chiqimbugunson'])->name('adminchiqimbugunsonru');
+    Route::get('/adminchiqimsanaru', [ChiqimsavdoControllerRU::class, 'chiqimsana'])->name('adminchiqimsanaru');
+    Route::get('/adminchiqimsanasonru', [ChiqimsavdoControllerRU::class, 'chiqimsanason'])->name('adminchiqimsanasonru');
+    Route::post('/addchiqimru', [ChiqimsavdoControllerRU::class, 'store'])->name('chiqim.storeru');
+    Route::post('/addchiqimsanaru', [ChiqimsavdoControllerRU::class, 'chiqimsanaqidir'])->name('chiqim.sanaru');
+    Route::post('/addchiqimsanasonru', [ChiqimsavdoControllerRU::class, 'chiqimsanaqidirson'])->name('chiqim.sanasonru');
+    Route::delete('/chiqim/{id}/deleteru', [ChiqimsavdoControllerRU::class, 'delete'])->name('chiqim.deleteru');
+    Route::post('/chiqimsotildiru', [ChiqimsavdoControllerRU::class, 'sotildi'])->name('chiqim.sotildiru');
+    //chiqim
+});
+
+//Route::get('/admin/login', [AuthManager::class, 'adminlogin'])->name('login');
+Route::post('/adminloginru', [AuthManagerRU::class, 'adminloginPost'])->name('adminlogin.postru');
+Route::get('/adminlogoutru', [AuthManagerRU::class, 'adminlogout'])->name('adminlogoutru');
+//russian
+///////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////
+//english
+Route::get('/eng', [AuthManagerEng::class, 'adminlogin'])->name('logineng');
+Route::get('/registereng', [RegistrationControllerEng::class, 'register'])->name('registereng');
+Route::post('/registereng', [RegistrationControllerEng::class, 'store'])->name('register.submiteng');
+
+Route::get('/licenseeng', [MuddatControllerEng::class, 'showForm'])->name('licenseeng');
+Route::post('/licenseeng', [MuddatControllerEng::class, 'handleForm'])->name('license.submiteng');
+Route::middleware('auth')->group(function () {
+    //title section    
+    Route::get('/admintitleeng', [TitleControllerEng::class, 'title'])->name('admintitleeng');
+    Route::post('/addtitleeng', [TitleControllerEng::class, 'store'])->name('title.storeeng');
+    Route::get('/title/{id}/editeng', [TitleControllerEng::class, 'edit'])->name('title.editeng');
+    Route::post('/title/{id}/updateeng', [TitleControllerEng::class, 'update'])->name('title.updateeng');
+    Route::delete('/title/{id}/deleteeng', [TitleControllerEng::class, 'delete'])->name('title.deleteeng');
+    //title section
+    //user section    
+    Route::get('/adminhomeeng', function () { return view('english.blank'); })->name('adminhomeeng'); 
+    Route::get('/adminsuperusereng', [AuthManagerEng::class, 'usersuper'])->name('adminsuperusereng');
+    Route::get('/adminusereng', [AuthManagerEng::class, 'user'])->name('adminusereng');
+    Route::post('/addusereng', [AuthManagerEng::class, 'store'])->name('user.storeeng');
+    Route::get('/user/{id}/editeng', [AuthManagerEng::class, 'edit'])->name('user.editeng');
+    Route::post('/user/{id}/updateeng', [AuthManagerEng::class, 'update'])->name('user.updateeng');
+    Route::delete('/user/{id}/deleteeng', [AuthManagerEng::class, 'delete'])->name('user.deleteeng');
+    //usr section
+    //olcham section
+    Route::get('/adminolchameng', [OlchamlarControllerEng::class, 'olcham'])->name('adminolchameng');
+    Route::post('/addolchameng', [OlchamlarControllerEng::class, 'store'])->name('olcham.storeeng');
+    Route::get('/olcham/{id}/editeng', [OlchamlarControllerEng::class, 'edit'])->name('olcham.editeng');
+    Route::post('/olcham/{id}/updateeng', [OlchamlarControllerEng::class, 'update'])->name('olcham.updateeng');
+    Route::delete('/olcham/{id}/deleteeng', [OlchamlarControllerEng::class, 'delete'])->name('olcham.deleteeng');
+    //olcham section
+    //tovar section
+    Route::get('/admintovareng', [TovarControllerEng::class, 'tovar'])->name('admintovareng');
+    Route::post('/addtovareng', [TovarControllerEng::class, 'store'])->name('tovar.storeeng');
+    Route::get('/tovar/{id}/editeng', [TovarControllerEng::class, 'edit'])->name('tovar.editeng');
+    Route::post('/tovar/{id}/updateeng', [TovarControllerEng::class, 'update'])->name('tovar.updateeng');
+    Route::delete('/tovar/{id}/deleteeng', [TovarControllerEng::class, 'delete'])->name('tovar.deleteeng');
+    Route::post('/check-barcodeeng', [TovarControllerEng::class, 'checkBarcode'])->name('ajax.barcodeeng');
+    //tovar section
+    
+    //kirim section
+    Route::get('/adminkirimscaneng', [KirimControllerEng::class, 'kirimscan'])->name('adminkirimscaneng');
+    Route::get('/adminkirimboreng', [KirimControllerEng::class, 'kirimbor'])->name('adminkirimboreng');
+    Route::get('/adminkirimtugaganeng', [KirimControllerEng::class, 'kirimtugagan'])->name('adminkirimtugaganeng');
+    Route::get('/adminkirimeng', [KirimControllerEng::class, 'kirim'])->name('adminkirimeng');
+    Route::post('/addkirimeng', [KirimControllerEng::class, 'store'])->name('kirim.storeeng');
+    Route::post('/addkirimscaneng', [KirimControllerEng::class, 'storescan'])->name('kirim.storescaneng');
+    Route::delete('/kirim/{id}/deleteeng', [KirimControllerEng::class, 'delete'])->name('kirim.deleteeng');
+
+    Route::post('/delete-kirimeng', [KirimControllerEng::class, 'deletescan'])->name('delete.kirimeng');
+    //kirim section
+    //chiqim
+    Route::get('/adminchiqimeng', [ChiqimsavdoControllerEng::class, 'chiqim'])->name('adminchiqimeng');
+    Route::get('/adminchiqimbuguneng', [ChiqimsavdoControllerEng::class, 'chiqimbugun'])->name('adminchiqimbuguneng');
+    Route::get('/chiqimqaytar/{id}/editeng', [ChiqimsavdoControllerEng::class, 'qaytar'])->name('qaytar.editeng');
+    Route::get('/adminchiqimbugunsoneng', [ChiqimsavdoControllerEng::class, 'chiqimbugunson'])->name('adminchiqimbugunsoneng');
+    Route::get('/adminchiqimsanaeng', [ChiqimsavdoControllerEng::class, 'chiqimsana'])->name('adminchiqimsanaeng');
+    Route::get('/adminchiqimsanasoneng', [ChiqimsavdoControllerEng::class, 'chiqimsanason'])->name('adminchiqimsanasoneng');
+    Route::post('/addchiqimeng', [ChiqimsavdoControllerEng::class, 'store'])->name('chiqim.storeeng');
+    Route::post('/addchiqimsanaeng', [ChiqimsavdoControllerEng::class, 'chiqimsanaqidir'])->name('chiqim.sanaeng');
+    Route::post('/addchiqimsanasoneng', [ChiqimsavdoControllerEng::class, 'chiqimsanaqidirson'])->name('chiqim.sanasoneng');
+    Route::delete('/chiqim/{id}/deleteeng', [ChiqimsavdoControllerEng::class, 'delete'])->name('chiqim.deleteeng');
+    Route::post('/chiqimsotildieng', [ChiqimsavdoControllerEng::class, 'sotildi'])->name('chiqim.sotildieng');
+    //chiqim
+});
+
+//Route::get('/admin/login', [AuthManager::class, 'adminlogin'])->name('login');
+Route::post('/adminlogineng', [AuthManagerEng::class, 'adminloginPost'])->name('adminlogin.posteng');
+Route::get('/adminlogouteng', [AuthManagerEng::class, 'adminlogout'])->name('adminlogouteng');
+//english
+///////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////
+//uzbek
 Route::get('/', [AuthManager::class, 'adminlogin'])->name('login');
 Route::get('/register', [RegistrationController::class, 'register'])->name('register');
 Route::post('/register', [RegistrationController::class, 'store'])->name('register.submit');
@@ -85,13 +250,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/chiqim/{id}/delete', [ChiqimsavdoController::class, 'delete'])->name('chiqim.delete');
     Route::post('/chiqimsotildi', [ChiqimsavdoController::class, 'sotildi'])->name('chiqim.sotildi');
     //chiqim
-    Route::get('/adminservice', [ServiceController::class, 'service'])->name('adminservice');
-    Route::post('/addservice', [ServiceController::class, 'store'])->name('service.store');
-    Route::get('/service/{id}/edit', [ServiceController::class, 'edit'])->name('service.edit');
-    Route::post('/service/{id}/update', [ServiceController::class, 'update'])->name('service.update');
-    Route::delete('/service/{id}/delete', [ServiceController::class, 'delete'])->name('service.delete');
-    //team section
-    //savdo
+     //savdo
         ////////////////////////////////////////////////////////////////////
         Route::get('/api/tovar-details', function(Request $request) {
         //get only firma id
@@ -257,5 +416,6 @@ Route::middleware('auth')->group(function () {
 //Route::get('/admin/login', [AuthManager::class, 'adminlogin'])->name('login');
 Route::post('/adminlogin', [AuthManager::class, 'adminloginPost'])->name('adminlogin.post');
 Route::get('/adminlogout', [AuthManager::class, 'adminlogout'])->name('adminlogout');
+//uzbek
+///////////////////////////////////////////////////////////////////////////////////////////
 
-//require __DIR__.'/auth.php';

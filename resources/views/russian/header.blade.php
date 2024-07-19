@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>{{ $title ? $title->title : 'Korxona Nomi' }}</title>
+        <title>{{ $title ? $title->title : 'Название компании' }}</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="{{asset('admin/css/styles.css')}}" rel="stylesheet" />
         <link href="{{asset('admin/style/style.css')}}" rel="stylesheet" />
@@ -26,10 +26,9 @@
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="{{route('adminhome')}}">Bosh Sahifa</a>
+            <a class="navbar-brand ps-3" href="{{route('adminhomeru')}}">Главная страница</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-            <!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
                 <div class="input-group">
                 </div>
@@ -37,7 +36,7 @@
             <!-- Navbar-->
             <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Tilni Tanlash</a>
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Выберите язык</a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="{{route('adminhome')}}">Uzbek</a></li>
                         <li><a class="dropdown-item" href="{{route('adminhomeeng')}}">English</a></li>
@@ -59,31 +58,31 @@
                             </a>
                             -->
                             @if(auth()->user()->type == 'superadmin')
-                            <a class="nav-link" href="{{route('adminsuperuser')}}">
+                            <a class="nav-link" href="{{route('adminsuperuserru')}}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Foydalanuvchilar
+                                Пользователи
                             </a>
                             @endif
                             @if(auth()->user()->type == 'admin')
-                            <a class="nav-link" href="{{route('admintitle')}}">
+                            <a class="nav-link" href="{{route('admintitleru')}}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Korxona Nomi
+                                Название компании
                             </a>
                             
-                            <a class="nav-link" href="{{route('adminuser')}}">
+                            <a class="nav-link" href="{{route('adminuserru')}}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Foydalanuvchi
+                                Пользователь
                             </a>
                             
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts1" aria-expanded="false" aria-controls="collapseLayouts1">
                                 <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                                Kiritish
+                                Ввод информации
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="collapseLayouts1" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="{{route('adminolcham')}}">O`lchamlar</a>
-                                    <a class="nav-link" href="{{route('admintovar')}}">Tovar Kiritish</a>
+                                    <a class="nav-link" href="{{route('adminolchamru')}}">Измерения</a>
+                                    <a class="nav-link" href="{{route('admintovarru')}}">Ввод товара</a>
                                 </nav>
                             </div>
                             <!--
@@ -98,15 +97,15 @@
                             -->
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts2" aria-expanded="false" aria-controls="collapseLayouts2">
                                 <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                                Omborga Kiritish
+                                Ввод на склад
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="collapseLayouts2" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="{{route('adminkirim')}}">Kirim</a>
-                                    <a class="nav-link" href="{{route('adminkirimscan')}}">Kirim Scan</a>
-                                    <a class="nav-link" href="{{route('adminkirimbor')}}">Bor Tovarlar</a>
-                                    <a class="nav-link" href="{{route('adminkirimtugagan')}}">Tugagan Tovarlar / Muddati tugagan Tovarlar</a>
+                                    <a class="nav-link" href="{{route('adminkirimru')}}">Поступление</a>
+                                    <a class="nav-link" href="{{route('adminkirimscanru')}}">Сканирование поступления</a>
+                                    <a class="nav-link" href="{{route('adminkirimborru')}}">Есть товары</a>
+                                    <a class="nav-link" href="{{route('adminkirimtugaganru')}}">Продукция, которая была продана / Продукция, чье время истекло</a>
                                 </nav>
                             </div>
                             
@@ -123,16 +122,16 @@
                             
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts3" aria-expanded="false" aria-controls="collapseLayouts3">
                                 <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                                Savdo
+                                Tорговля
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="collapseLayouts3" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="{{route('adminchiqim')}}">Savdo Scan</a>
-                                    <a class="nav-link" href="{{route('adminchiqimbugun')}}">Bugungi Savdo (Umumiy)</a>
-                                    <a class="nav-link" href="{{route('adminchiqimbugunson')}}">Bugungi Savdo <br>(Maxsulot Soni)</a>
-                                    <a class="nav-link" href="{{route('adminchiqimsana')}}">Sana Bilan Savdo</a>
-                                    <a class="nav-link" href="{{route('adminchiqimsanason')}}">Sana Bilan Savdo <br>(Maxsulot Soni)</a>
+                                    <a class="nav-link" href="{{route('adminchiqimru')}}">Сканер торговли</a>
+                                    <a class="nav-link" href="{{route('adminchiqimbugunru')}}">Сегодняшняя торговля (общая)</a>
+                                    <a class="nav-link" href="{{route('adminchiqimbugunsonru')}}">Сегодняшняя торговля <br>(Количество товаров)</a>
+                                    <a class="nav-link" href="{{route('adminchiqimsanaru')}}">Торговля с датой</a>
+                                    <a class="nav-link" href="{{route('adminchiqimsanasonru')}}">Торговля по дате <br>(Количество товаров)</a>
                                 </nav>
                             </div>
                             @endif
@@ -141,45 +140,45 @@
                             
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts2" aria-expanded="false" aria-controls="collapseLayouts2">
                                 <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                                Omborga Kiritish
+                                Поставка на склад
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="collapseLayouts2" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="{{route('adminkirim')}}">Kirim</a>
-                                    <a class="nav-link" href="{{route('adminkirimscan')}}">Kirim Scan</a>
-                                    <a class="nav-link" href="{{route('adminkirimbor')}}">Bor Tovarlar</a>
-                                    <a class="nav-link" href="{{route('adminkirimtugagan')}}">Tugagan Tovarlar / Muddati tugagan Tovarlar</a>
+                                    <a class="nav-link" href="{{route('adminkirimru')}}">Поступление</a>
+                                    <a class="nav-link" href="{{route('adminkirimscanru')}}">Сканирование поступлений</a>
+                                    <a class="nav-link" href="{{route('adminkirimborru')}}">Имеющиеся товары</a>
+                                    <a class="nav-link" href="{{route('adminkirimtugaganru')}}">Проданные товары / Истекшие товары</a>
                                 </nav>
                             </div>
                             
                             
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts3" aria-expanded="false" aria-controls="collapseLayouts3">
                                 <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                                Savdo
+                                Tорговля
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="collapseLayouts3" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="{{route('adminchiqim')}}">Savdo Scan</a>
-                                    <a class="nav-link" href="{{route('adminchiqimbugun')}}">Bugungi Savdo (Umumiy)</a>
-                                    <a class="nav-link" href="{{route('adminchiqimbugunson')}}">Bugungi Savdo <br>(Maxsulot Soni)</a>
-                                    <a class="nav-link" href="{{route('adminchiqimsana')}}">Sana Bilan Savdo</a>
+                                    <a class="nav-link" href="{{route('adminchiqimru')}}">Сканер торговли</a>
+                                    <a class="nav-link" href="{{route('adminchiqimbugunru')}}">Сегодняшняя торговля (общая)</a>
+                                    <a class="nav-link" href="{{route('adminchiqimbugunsonru')}}">Сегодняшняя торговля <br>(Количество товаров)</a>
+                                    <a class="nav-link" href="{{route('adminchiqimsanaru')}}">Торговля с датой</a>
                                 </nav>
                             </div>
                             @endif
 
 
-                            <a class="nav-link" href="{{route('adminlogout')}}">
+                            <a class="nav-link" href="{{route('adminlogoutru')}}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-sign-out-alt"></i></div>
-                                Logout
+                                Выход
                             </a>
                         </div>
                         
                     </div>
                  
                     <div class="sb-sidenav-footer">
-                        <div class="small">Foydalanuvchi:</div>
+                        <div class="small">Пользователь:</div>
                         {{ auth()->user()->name }}
                     </div>
                 </nav>

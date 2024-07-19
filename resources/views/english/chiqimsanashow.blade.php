@@ -1,21 +1,5 @@
-@extends('admin.base')
-<style>
+@extends('english.base')
 
-.form-group {
-    display: none; /* Initially hidden */
-    display: flex;
-    align-items: center;
-}
-
-.form-group label {
-    flex: 1;
-    font-size: 13px; /* Adjust the font size here */
-}
-
-.form-group input {
-    flex: 2;
-}
-    </style>
 @section('content')
     @php
         date_default_timezone_set('Asia/Tashkent');
@@ -33,7 +17,7 @@
             $("#submit").prop("disabled", true);
             $.ajax({
                 type: "post",
-                url: "{{ route('kirim.storescan') }}",
+                url: "{{ route('kirim.storescaneng') }}",
                 cache: false,
                 data: $('#material').serialize(),
                 success: function(response) {
@@ -42,7 +26,7 @@
                         $('#suss_message2').html("<center><h5 style='color:white'>" + response + " </h5></center>");
                         $('#suss_message2').fadeIn().delay(1200).fadeOut();
                         window.setTimeout(function() {
-                            window.location.href = "{{ route('adminkirimscan') }}";
+                            window.location.href = "{{ route('adminkirimscaneng') }}";
                         }, 4000);
                     } catch (e) {
                         alert('Exception while request1: ' + e);
@@ -81,7 +65,7 @@
             var add = olchamid.value.length;
             if (add == 0)
             {
-                $('#suss_message').html("<center><h5 style='color:#ffffff;'>Kiriting!</h5></center>");
+                $('#suss_message').html("<center><h5 style='color:#ffffff;'>Enter!</h5></center>");
                 $('#suss_message').fadeIn().delay(1200).fadeOut();
                 //alert('First name must have alphabet characters only');
                 olchamid.focus();
@@ -97,7 +81,7 @@
             var add = materialnomi.value.length;
             if (add == 0)
             {
-                $('#suss_message').html("<center><h5 style='color:#ffffff;'>Kiriting!</h5></center>");
+                $('#suss_message').html("<center><h5 style='color:#ffffff;'>Enter!</h5></center>");
                 $('#suss_message').fadeIn().delay(1200).fadeOut();
                 //alert('First name must have alphabet characters only');
                 materialnomi.focus();
@@ -113,7 +97,7 @@
             var add = OlinganNarxi.value.length;
             if (add == 0)
             {
-                $('#suss_message').html("<center><h5 style='color:#ffffff;'>Kiriting!</h5></center>");
+                $('#suss_message').html("<center><h5 style='color:#ffffff;'>Enter!</h5></center>");
                 $('#suss_message').fadeIn().delay(1200).fadeOut();
                 //alert('First name must have alphabet characters only');
                 OlinganNarxi.focus();
@@ -146,14 +130,14 @@ $(document).ready(function(){
 
     if (selectedIds.length === 0) {
         // Show message if no items are selected
-        $('#suss_message').html("<center><h5 style='color:white'>Tanlang!</h5></center>");
+        $('#suss_message').html("<center><h5 style='color:white'>Select!</h5></center>");
         $('#suss_message').fadeIn().delay(1200).fadeOut();
     } else {
     //alert(selectedIds);
     // Send AJAX request to delete selected items
     $.ajax({
         type: 'POST',
-        url: "{{ route('delete.kirim') }}", // Adjust the route to match your controller method
+        url: "{{ route('delete.kirimeng') }}", // Adjust the route to match your controller method
         data: {selectedIds: selectedIds},
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -163,7 +147,7 @@ $(document).ready(function(){
                         $('#suss_message').html("<center><h5 style='color:white'>" + response + " </h5></center>");
                         $('#suss_message').fadeIn().delay(1200).fadeOut();
                         window.setTimeout(function() {
-                            window.location.href = "{{ route('adminkirimscan') }}";
+                            window.location.href = "{{ route('adminkirimscaneng') }}";
                         }, 4000);
             //alert("Selected IDs sent to controller: " + response);
             // You can further process the response if needed
@@ -179,14 +163,17 @@ $(document).ready(function(){
 
 
 </script>
-    
-    <div class="col-xl-8">
-    <div class="card mb-4">
+    <br/>
+
+
+
+<!---->
+    <div class="container-fluid px-4">
+        <div class="card mb-4">
             <div class="card-header">
                 <i class="fa-solid fa-weight-scale"></i>
-                Omborga Kiritish
-            </div>
-            <div id="suss_message" class="ajax_warning" style="display: none"></div>
+                Today's Sales List
+                <div id="suss_message" class="ajax_warning" style="display: none"></div>
             <div id="suss_message2" class="ajax_Message" style="display: none"></div>
             @if (session('success'))
                 <div id="success-message" class="ajax_Message">
@@ -203,88 +190,10 @@ $(document).ready(function(){
                     </ul>
                 </div>
             @endif
-
-            <div class="card-body">
-                <form class="form-horizontal" action="{{ route('kirim.storescan') }} " name="material" id="material" method="post">
-                    @csrf <!-- CSRF token -->
-
-                    <div class="form-group Barcode1">
-                        <label class="control-label">Barcode:</label>
-                        <div class="col-sm-8">
-                            <input type="text" name="barcode" id="Barcode" class="form-control Barcode" autofocus required/>
-                        </div>
-                    </div>
-
-                    <div class="form-group display" style="display: none">
-                        <label class="control-label">Tovar Nomi:</label>
-                        <div class="col-sm-8">
-                            <input type="text" name="tnomi" id="tnomi" disabled class="form-control" />
-                        </div>
-                    </div>
-
-                    <div class="form-group display" style="display: none">
-                        <label class=" control-label">Sotilish Narxi:</label>
-                        <div class="col-sm-8">
-                            <input type="number" name="snarxi" id="snarxi" disabled class="form-control" />
-                        </div>
-                    </div>
-
-                    <div class="form-group display2" style="display: none">
-                        <label class=" control-label">Sotilish (Dona) Narxi:</label>
-                        <div class="col-sm-8">
-                            <input type="number" name="dnarxi" id="dnarxi" disabled class="form-control" value="0" />
-                        </div>
-                    </div>
-
-                    <div class="form-group display" style="display: none">
-                        <label class=" control-label">Nechta (Tovar) Keldi:</label>
-                        <div class="col-sm-8">
-                            <input type="number" name="Nechta" id="Nechta" class="form-control" value="0" required />
-                        </div>
-                    </div>
-
-                    <div class="form-group display2" style="display: none">
-                        <label class=" control-label">Nechta (Tovar Dona) Keldi:</label>
-                        <div class="col-sm-8">
-                            <input type="number" name="Nechtadona" class="form-control" value="0" required />
-                        </div>
-                    </div>
-
-                    <div class="form-group display" style="display: none">
-                        <label class=" control-label">Ombordagi miqdori:</label>
-                        <div class="col-sm-8">
-                            <input type="number" name="Ombordagi" disabled id="Ombordagi" class="form-control" />
-                        </div>
-                    </div>
-
-                    <div class="form-group display" style="display: none">
-                        <label class=" control-label">Muddati:</label>
-                        <div class="col-sm-8">
-                            <input type="date" name="muddat" id="muddat" class="form-control" required />
-                        </div>
-                    </div>
-                    <input type="hidden" name="tovarid"  id="tovarid" />
-                    <br>
-                    <button type="button" id="submit" class="btn btn-primary" onclick="material_db()">Saqlash</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <hr/>
-    
-
-
-<!---->
-    <div class="container-fluid px-4">
-        <div class="card mb-4">
-            <div class="card-header">
-                <i class="fa-solid fa-weight-scale"></i>
-                Tovarlar Ro`yxati
-
-                <button style="float:right" class="btn btn-success" onclick="exportToCSV()">Excel Yuklab Olish</button>
+                <button style="float:right" class="btn btn-success" onclick="exportToCSV()">Download Excel</button>
+                <!--
                 <button style="float: right; margin-right: 1%" type="button" id="submit" class="btn btn-danger" onclick="deleteSelectedItems()">O`chirish</button>
-
+-->
             </div>
             <div class="card-body">
 
@@ -293,7 +202,7 @@ $(document).ready(function(){
 
                 <div class="search-container">
     <div>
-        <label for="perPage">Bir sahifada nechta ko'rsatilsin:</label>
+        <label for="perPage">How many should be displayed per page:</label>
         <select id="perPage" onchange="changePerPage()">
             <option value="5">5</option>
             <option value="10" selected>10</option>
@@ -304,7 +213,7 @@ $(document).ready(function(){
         </select>
     </div>
     <div>
-        <input type="text" id="searchInput"  onkeyup="searchTable()" placeholder="Qidiruv...">
+        <input type="text" id="searchInput"  onkeyup="searchTable()" placeholder="Search...">
     </div>
 </div>
 <form action="" name="shartnoma" id="shartnoma" method="post">
@@ -313,21 +222,27 @@ $(document).ready(function(){
 <table id="dataTable">
     <thead>
         <tr>
-            <th style="width: 5%"><input type="checkbox" id="selecctall" /></th>
-            <th>Barcode</th>
-            <th>Tovar Nomi</th>
-            <th>Miqdori</th>
-            <th>Miqdori (Dona)</th>
-            <th>Muddati</th>
-            <th>Kiritilgan Sana</th>
+        <th>Seller</th>
+        <th>Barcode</th>
+        <th>Product Name</th>
+        <th>Quantity</th>
+        <th>Quantity (Pieces)</th>
+        <th>Entry Date</th>
+        <th>Return</th>
         </tr>
     </thead>
     <tbody>
     @foreach ($tovars as $tovar)
-    @foreach($kirims as $kirim)
-        @if($tovar->id == $kirim->tovar_id)         
+    @foreach($chiqim as $chiq)
+        @if($tovar->id == $chiq->tovar_id)         
             <tr class="align-middle">
-                <td><input class="checkbox1" type="checkbox" name="selectedItems[]" value="{{ $kirim->id }}"</td>
+            @php $username = '' @endphp {{-- Initialize the variable --}}
+                    @foreach ($users as $user)
+                        @if ($user->id == $chiq->userid)    
+                            @php $username = $user->name @endphp {{-- Assign the value --}}
+                        @endif
+                    @endforeach
+                <td>{{ $username }}</td>
                 <td>{{ $tovar->barcode }}</td>
                 <td>{{ $tovar->nomi }}</td>
                 
@@ -339,11 +254,13 @@ $(document).ready(function(){
                     @endforeach
                    
                 
-                <td> {{ $kirim->miqdori }} {{ $olcham_nomi }} </td>
-                <td> {{ $kirim->dona }} {{ $olcham_nomi }} </td>
+                <td> {{ $chiq->miqdori }} {{ $olcham_nomi }} </td>
+                <td> {{ $chiq->miqdoridona }} {{ $olcham_nomi }} </td>
                 </td>
-                <td>{{ date('d/m/Y', strtotime($kirim->muddati)) }}</td>
-                <td>{{ $kirim->created_at->format('d/m/Y')}}</td>
+                <td>{{ $chiq->created_at->format('d/m/Y') }}</td>
+                <td>
+                <a href="{{ route('qaytar.editeng', $chiq->id) }}" class="text-danger"><i class="fas fa-trash fa-lg mx-1"></i></a>
+                </td>
             </tr>
         @endif
     @endforeach
@@ -379,12 +296,11 @@ $(document).ready(function(){
                     if (data.nomi !== null) {
                         $('#tovarid').val(data.tovarid);
                         $('#tnomi').val(data.nomi);
-                        if(data.dnarxi > 0){$('.display2').show();}else{$('.display2').hide();}
                         $('#dnarxi').val(data.dnarxi);
                         $('#snarxi').val(data.snarxi);
                         $('#Ombordagi').val(data.ombor);
                     } else {
-                        alert('Bu barcode oid tovar mavjud emas');
+                        alert('No product exists for this barcode');
                         $('#snarxi').val(0);
                         $('#Ombordagi').val(0);
                     }

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>{{ $title ? $title->title : 'Korxona Nomi' }}</title>
+    <title>{{ $title ? $title->title : 'Название компании' }}</title>
 
     <!-- Styles -->
     <link href="{{ asset('admin/css/styles.css') }}" rel="stylesheet" />
@@ -24,7 +24,7 @@
                             <div class="card shadow-lg border-0 rounded-lg mt-5">
                                 <div class="card-header">
                                     <h3 class="text-center font-weight-light my-4">
-                                        {{ $title ? $title->title : '' }} dasturiga Registratsiya Qilish
+                                        {{ $title ? $title->title : '' }} pегистрация в программе
                                     </h3>
                                 </div>
                                 <div class="card-body">
@@ -49,27 +49,26 @@
                                     @endif
 
                                     <!-- Registration Form -->
-                                    <form method="post" action="{{ route('register.submit') }}" id="add-form" enctype="multipart/form-data">
+                                    <form method="post" action="{{ route('register.submitru') }}" id="add-form" enctype="multipart/form-data">
                 @csrf <!-- CSRF token -->
                 <div class="mb-3">
-                    <label for="Ism">Ismi</label>
-                    <input type="text" class="form-control" id="ism" name="ism" placeholder="Ismni Kiriting" required>
+                    <label for="Ism">Имя</label>
+                    <input type="text" class="form-control" id="ism" name="ism" placeholder="Введите имя" required>
                 </div>
                 <div class="mb-3">
-                    <label for="Email">Login</label>
-                    <input type="text" class="form-control" id="email" name="email" placeholder="Loginni Kiriting" required>
+                    <label for="Email">Логин</label>
+                    <input type="text" class="form-control" id="email" name="email" placeholder="Введите логин" required>
                 </div>
                 
                 <div class="mb-3">
-                    <label for="Password">Parol</label>
-                    <input type="text" class="form-control" id="parol" name="parol" placeholder="Parolni Kiriting" required>
+                    <label for="Password">Пароль</label>
+                    <input type="text" class="form-control" id="parol" name="parol" placeholder="Введите пароль" required>
                 </div>
 
                 <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                <button type="submit" class="btn btn-primary">Saqlash</button>
-                <a href="{{ route ('login') }}" >Loginga Qaytish</a>
-                </div>    
-           
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+                <a href="{{ route ('loginru') }}" >восстановление логина</a>
+                </div>
             </form>
                                 </div>                             
                             </div>
