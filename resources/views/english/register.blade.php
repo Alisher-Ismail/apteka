@@ -23,6 +23,11 @@
                         <div class="col-lg-5">
                             <div class="card shadow-lg border-0 rounded-lg mt-5">
                                 <div class="card-header">
+                                <center>
+                                <a  href="{{ route('register') }}" style="display: inline-block; margin-right: 10px;">O`zbek tili</a>
+                                <a  href="{{ route('registereng') }}" style="display: inline-block; margin-right: 10px;">English</a>
+                                <a  href="{{ route('registerru') }}" style="display: inline-block; margin-right: 10px;">Русский</a>
+                                    </center>
                                     <h3 class="text-center font-weight-light my-4">
                                         {{ $title ? $title->title : '' }} to register for the program
                                     </h3>
